@@ -10,14 +10,12 @@ export const useReport = () => {
   // const _url = 'http://localhost:5000'
   const { user } = useAuthContext()
 
-  const usersReport = async (token) => {
+  const usersReport = async () => {
     setIsGenerating(true)
-    console.log({token})
 
     const response = await fetch(`${_url}/report/generate-user-report`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
+      headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
       console.log(err)
     })
@@ -37,7 +35,7 @@ export const useReport = () => {
     setIsGenerating(true)
     console.log({token})
 
-    const response = await fetch(`${_url}/report/generate-product-report/${token}`, {
+    const response = await fetch(`${_url}/report/generate-product-report`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {

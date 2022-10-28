@@ -9,7 +9,7 @@ import Upload from './components/upload'
 import { GrStatusGoodSmall } from 'react-icons/gr'
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md'
 import { useShop } from '../../hooks/useShop'
-import {TbReport} from 'react-icons/tb'
+import { TbReport } from 'react-icons/tb'
 // import './dashboard.css'
 import { useEffect } from 'react'
 import { useReport } from '../hook/useReport'
@@ -58,14 +58,12 @@ const Dashboard = () => {
   const pageVisited = pages * perPage
 
   const generateRepost = async () => {
-    const token = user.token
-    const res = await usersReport(token)
+    const res = await usersReport()
     console.log({ res })
   }
 
   const generateProducts = async () => {
-    const token = user.token
-    await productsReport(token)
+    await productsReport()
   }
 
 
@@ -86,8 +84,8 @@ const Dashboard = () => {
               Add product
             </a>
           </li>
-          <li onClick={generateProducts}>
-            <a>
+          <li>
+            <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" target="_black">
               <TbReport className="h-5 w-5" />
               Products Report
             </a>
@@ -130,12 +128,13 @@ const Dashboard = () => {
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
 
           <div style={{ margin: "16px 0", float: "right" }}>
-            <button className="btn btn-primary" type="submit"
-              onClick={generateRepost}
-              disabled={isGenerating}
-            >
-              Generate report
-            </button>
+            <a href="https://e-mall-backend.herokuapp.com/report/generate-user-report/1" target="_black">
+              <button className="btn btn-primary" type="submit"
+                disabled={isGenerating}
+              >
+                Generate report
+              </button>
+            </a>
           </div>
         </div>
       </div>

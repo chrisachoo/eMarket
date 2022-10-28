@@ -37,6 +37,7 @@ const ListProducts = () => {
           return (
             <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
               onClick={() => viewItem(x)}
+              style={{cursor: "pointer"}}
             >
               <a>
                 <img className="p-8 rounded-t-lg" style={{ width: "100%", objectFit: "fill" }} src={x.picture_url} alt="product image" />
