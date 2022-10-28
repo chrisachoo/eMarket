@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 export const useReport = () => {
   const [isGenerating, setIsGenerating] = useState(null)
   const _url = 'https://e-mall-backend.herokuapp.com'
+  // const _url = 'http://localhost:5000'
   const { user } = useAuthContext()
 
-  const usersReport = async () => {
+  const usersReport = async (token) => {
     setIsGenerating(true)
-    const token = user.token
     console.log({token})
 
     const response = await fetch(`${_url}/report/generate-user-report`, {
@@ -29,8 +29,31 @@ export const useReport = () => {
 
     if (response.ok) {
       setIsGenerating(false)
+      return json
     }
   }
 
-  return { usersReport, isGenerating }
+  const productsReport = async (token) => {
+    setIsGenerating(true)
+    console.log({token})
+
+    const response = await fetch(`${_url}/report/generate-product-report/${token}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }).catch((err) => {
+      console.log(err)
+    })
+    const json = await response.json()
+
+    if (!response.ok) {
+      setIsGenerating(false)
+    }
+
+    if (response.ok) {
+      setIsGenerating(false)
+      return json
+    }
+  }
+
+  return { usersReport, productsReport, isGenerating }
 }

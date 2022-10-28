@@ -1,17 +1,45 @@
 import { useShop } from '../../hooks/useShop'
+import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { Loader } from '../..'
 
-const Onboarding = ({ category }) => {
+const Onboarding = ({ category, malls }) => {
 
-  const { getProducts } = useShop()
+  const { getProducts, getAllCategory, getMallShops, shopProducts, isLoading } = useShop()
+  const [shopCategory, setShopCategory] = useState()
+  const [shops, setShops] = useState()
   const fetchProducts = async (data) => {
     console.log({ data })
     const category_id = data.id
     await getProducts(category_id)
   }
 
+  const handleOnSearch = (string, results) => {
+    console.log(string, results)
+  }
+
+  const handleOnSelect = async (item) => {
+    // GET SHOPS OF SELECTED MALL
+    const response = await getMallShops(item.id)
+    if (response.length > 0) {
+      console.log('mall shops: ', response)
+      setShops(response)
+    }
+  }
+
+  // GET ALL THE CATEGORY OF SELECTED SHOP
+  const getAllCategoryofShop = async (item) => {
+    console.log(item)
+    const shop_id = item.id
+    const products = await shopProducts(shop_id)
+    if (products) {
+      console.log({ products })
+    }
+  }
+
   return (
     <>
+      {isLoading ? <Loader /> : null}
       <div className="p-5 grid-items">
         <ul className="menu bg-base-300 rounded-box">
           {category ?
@@ -37,8 +65,49 @@ const Onboarding = ({ category }) => {
               </div>
             </div>}
         </ul>
-        <div className="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
-          Search
+        <div className="flex-grow p-5 bg-base-300 rounded-box place-items-center">
+          <div className="mb-5">
+
+            <h2 className="text-2xl font-bold leading-snug sm:pr-8">Filter</h2>
+            <p className="text-sm dark:text-gray-400">Shop by Malls, Shop and Category</p>
+          </div>
+          <ReactSearchAutocomplete
+            items={malls}
+            onSearch={handleOnSearch}
+            onSelect={handleOnSelect}
+            autoFocus
+            placeholder={`Search for malls`}
+            showIcon={false}
+            className="input input-bordered input-primary w-full"
+            styling={{
+              border: '1px solid #1A3365',
+              hoverBackgroundColor: 'none',
+              borderRadius: '5px',
+              padding: '.5em 1em',
+              display: 'flex', alignItems: 'center',
+              clearIconMargin: '.5em 1em',
+              zIndex: '20'
+            }}
+          />
+
+          <ReactSearchAutocomplete
+            items={shops}
+            onSearch={handleOnSearch}
+            onSelect={getAllCategoryofShop}
+            autoFocus
+            placeholder={`Search for shops`}
+            showIcon={false}
+            styling={{
+              border: '1px solid #1A3365',
+              hoverBackgroundColor: 'none',
+              borderRadius: '5px',
+              padding: '.5em 1em',
+              display: 'flex', alignItems: 'center',
+              clearIconMargin: '.5em 1em',
+              zIndex: '2'
+            }}
+          />
+
         </div>
       </div>
     </>

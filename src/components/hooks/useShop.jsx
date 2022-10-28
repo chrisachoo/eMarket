@@ -29,6 +29,8 @@ export const useShop = () => {
   }
 
   const getProducts = async (category_id) => {
+    setIsLoading(true)
+
     const response = await fetch(`${_url}/product/get-products/${category_id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -43,7 +45,7 @@ export const useShop = () => {
 
     if (response.ok) {
       setIsLoading(false)
-      navigate('/prod-list', {state: products})
+      navigate('/prod-list', { state: products })
     }
   }
 
@@ -67,6 +69,7 @@ export const useShop = () => {
   }
 
   const shopProducts = async (shop_id) => {
+    setIsLoading(true)
     const response = await fetch(`${_url}/product/get-products-for-shop/${shop_id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }

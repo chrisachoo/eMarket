@@ -9,17 +9,20 @@ import Upload from './components/upload'
 import { GrStatusGoodSmall } from 'react-icons/gr'
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md'
 import { useShop } from '../../hooks/useShop'
+import {TbReport} from 'react-icons/tb'
 // import './dashboard.css'
 import { useEffect } from 'react'
 import { useReport } from '../hook/useReport'
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 const Dashboard = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const { logout } = useLogout()
   const { getAllCategory, shopShops } = useShop()
-  const { usersReport, isGenerating } = useReport()
+  const { usersReport, productsReport, isGenerating } = useReport()
   const [shops, setShops,] = useState()
+  const { user } = useAuthContext()
   console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
 
@@ -55,7 +58,14 @@ const Dashboard = () => {
   const pageVisited = pages * perPage
 
   const generateRepost = async () => {
-    await usersReport()
+    const token = user.token
+    const res = await usersReport(token)
+    console.log({ res })
+  }
+
+  const generateProducts = async () => {
+    const token = user.token
+    await productsReport(token)
   }
 
 
@@ -74,6 +84,12 @@ const Dashboard = () => {
             <a>
               <MdOutlineProductionQuantityLimits className="h-5 w-5" />
               Add product
+            </a>
+          </li>
+          <li onClick={generateProducts}>
+            <a>
+              <TbReport className="h-5 w-5" />
+              Products Report
             </a>
           </li>
           <li onClick={handleSignout}>
