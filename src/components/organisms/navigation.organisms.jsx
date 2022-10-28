@@ -68,10 +68,12 @@ const Navigation = () => {
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
             <li>
+            {user && (
               <Link to='/profile' className="justify-between">
                 Profile
                 <span className="badge">New</span>
               </Link>
+              )}
             </li>
             {!user ? <div>
               <li onClick={handleSignin}><a>SignIn</a></li>

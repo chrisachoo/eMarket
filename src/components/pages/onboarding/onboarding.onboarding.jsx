@@ -1,5 +1,5 @@
 import { useShop } from '../../hooks/useShop'
-
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 const Onboarding = ({ category }) => {
 

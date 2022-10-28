@@ -1,11 +1,15 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useCart } from 'react-use-cart'
+import { useCheaper } from '../../hooks/useCheepr'
+import { Loader } from '../..'
 
 
 const ListProducts = () => {
 
   const { state } = useLocation()
   const { addItem } = useCart()
+  const navigate = useNavigate()
+  const { getCheaperProduct, loading } = useCheaper()
 
   const numberFormatter = Intl.NumberFormat('en-US')
 
@@ -14,18 +18,31 @@ const ListProducts = () => {
     console.log({ item })
   }
 
+  const viewItem = async (item) => {
+    console.log({ item })
+    const product_id = item.id
+    const shop_id = item.shop_id
+    const category_id = item.category_id
+
+    await getCheaperProduct(product_id, shop_id, category_id)
+  }
+
   return (
     <>
+      {loading ? <Loader /> : null}
+
       <div className="flex-cards-items">
 
         {state.map((x) => {
           return (
-            <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
+            <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
+              onClick={() => viewItem(x)}
+            >
+              <a>
                 <img className="p-8 rounded-t-lg" style={{ width: "100%", objectFit: "fill" }} src={x.picture_url} alt="product image" />
               </a>
               <div className="px-5 pb-5">
-                <a href="#">
+                <a>
                   <h5 className="text tracking-tight text-gray-900 dark:text-white">
                     {x.description}
                   </h5>

@@ -11,12 +11,14 @@ import { MdOutlineProductionQuantityLimits } from 'react-icons/md'
 import { useShop } from '../../hooks/useShop'
 // import './dashboard.css'
 import { useEffect } from 'react'
+import { useReport } from '../hook/useReport'
 
 const Dashboard = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const { logout } = useLogout()
   const { getAllCategory, shopShops } = useShop()
+  const { usersReport, isGenerating } = useReport()
   const [shops, setShops,] = useState()
   console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
@@ -51,6 +53,10 @@ const Dashboard = () => {
   const [pages, setPageNumber] = useState(0)
   const perPage = 7
   const pageVisited = pages * perPage
+
+  const generateRepost = async () => {
+    await usersReport()
+  }
 
 
   return (
@@ -106,6 +112,15 @@ const Dashboard = () => {
             </div>
           )}
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
+
+          <div style={{ margin: "16px 0", float: "right" }}>
+            <button className="btn btn-primary" type="submit"
+              onClick={generateRepost}
+              disabled={isGenerating}
+            >
+              Generate report
+            </button>
+          </div>
         </div>
       </div>
 

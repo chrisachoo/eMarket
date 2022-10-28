@@ -7,7 +7,8 @@ import {
   Profile,
   ViewCart,
   ProductList,
-  Checkout
+  Checkout,
+  Compare
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
 import { Dashboard } from './components/admin'
@@ -45,6 +46,7 @@ function App() {
         <Route path='/cart' element={<ViewCart />} />
         <Route path='/prod-list' element={<ProductList />} />
         <Route path='/payment-checkout' element={<Checkout />} />
+        <Route path='/view product' element={<Compare />} />
 
         <Route path='/admin/dashboard' element={<Dashboard />} />
       </Routes>
