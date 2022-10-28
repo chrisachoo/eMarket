@@ -1,0 +1,8 @@
+export { default as Onboarding } from './onboarding/onboarding.onboarding'
+export { default as Singup } from './auth/signup.auth'
+export { default as Singin } from './auth/signin.auth'
+export { default as Profile } from './auth/profile.auth'
+export { default as ViewCart } from './onboarding/onboarding.items'
+export { default as ProductList } from './onboarding/onboarding.products'
+export { default as Checkout } from './onboarding/onboarding.checkout'
+export { default as Address } from './address.address'

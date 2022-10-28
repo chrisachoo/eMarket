@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* COLOR PALLETTE */
+  --primary-color: #1A3365;
+  --secondary-color: #FFBB00;
+  --tertiary-color: #FFFFFF;
+  --quaternary-color: #FF4343;
+  --quinary-color: #5568FE;
+
+  --error: #e7195a;
+
+}
