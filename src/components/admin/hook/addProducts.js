@@ -46,5 +46,38 @@ export const saveProductsDeatils = () => {
     }
   }
 
-  return { saveProducts, isLoading, error }
+  const addShop = async (name, category_id, mall_id) => {
+    setIsLoading(true)
+    setError(null)
+    const token = user.token
+
+    const response = await fetch(`${_url}/shop/add-shop`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, category_id, mall_id, token })
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    if (!response.ok) {
+      setIsLoading(false)
+      setError(response.error)
+    }
+
+    if (response.ok) {
+      setIsLoading(false)
+      toast.success("Shop addded successfully!"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      }
+    }
+  }
+
+  return { saveProducts, addShop, isLoading, error }
 }

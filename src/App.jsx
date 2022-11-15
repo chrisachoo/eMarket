@@ -59,7 +59,7 @@ function App() {
         <Route path='/payment-checkout' element={<Checkout />} />
         <Route path='/view product' element={<Compare />} />
 
-        <Route path='/admin/dashboard' element={<Dashboard />} />
+        <Route path='/admin/dashboard' element={<Dashboard malls={malls}/>} />
       </Routes>
 
       {

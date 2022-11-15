@@ -50,7 +50,7 @@ const ViewCart = () => {
                       <p className="text-sm dark:text-gray-400">{item.description}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-semibold">R {item.price}</p>
+                      <p className="text-lg font-semibold">R {numberFormatter.format(item.price)}</p>
                       {/* <p className="text-sm line-through dark:text-gray-600">75.50€</p> */}
                     </div>
                   </div>

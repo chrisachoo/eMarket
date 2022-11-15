@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useCart } from 'react-use-cart'
 import { useCheaper } from '../../hooks/useCheepr'
 import { Loader } from '../..'
+import { useAuthContext } from "../../hooks/useAuthContext"
 
 
 const ListProducts = () => {
@@ -9,6 +10,7 @@ const ListProducts = () => {
   const { state } = useLocation()
   const { addItem } = useCart()
   const navigate = useNavigate()
+  const {user} = useAuthContext()
   const { getCheaperProduct, loading } = useCheaper()
 
   const numberFormatter = Intl.NumberFormat('en-US')
@@ -24,7 +26,12 @@ const ListProducts = () => {
     const shop_id = item.shop_id
     const category_id = item.category_id
 
-    await getCheaperProduct(product_id, shop_id, category_id)
+    if (user) {
+      await getCheaperProduct(product_id, shop_id, category_id)
+    } else {
+      navigate('/signin')
+    }
+
   }
 
   return (

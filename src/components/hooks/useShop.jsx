@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const useShop = () => {
 
@@ -80,6 +82,16 @@ export const useShop = () => {
 
     if (!response.ok) {
       setIsLoading(false)
+      toast.success("No products found for this shop"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      }
     }
 
     if (response.ok) {

@@ -2,6 +2,8 @@ import { useShop } from '../../hooks/useShop'
 import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { Loader } from '../..'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Onboarding = ({ category, malls }) => {
 
@@ -34,6 +36,7 @@ const Onboarding = ({ category, malls }) => {
     const products = await shopProducts(shop_id)
     if (products) {
       console.log({ products })
+      navigate('/prod-list', {state: products})
     }
   }
 
@@ -110,6 +113,7 @@ const Onboarding = ({ category, malls }) => {
 
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }
