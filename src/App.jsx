@@ -47,7 +47,7 @@ function App() {
     <>
       {
         location.pathname !== '/signup' && location.pathname !== '/signin' &&
-        location.pathname !== '/admin/dashboard' && <Navigation />
+        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Navigation />
       }
       <Routes>
         <Route path='/' element={<Onboarding category={isCategory} malls={malls}/>} />
@@ -64,7 +64,7 @@ function App() {
 
       {
         location.pathname !== '/signup' && location.pathname !== '/signin' &&
-        location.pathname !== '/admin/dashboard' && <Footer />
+        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Footer />
       }
     </>
   )

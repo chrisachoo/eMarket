@@ -1,7 +1,7 @@
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi"
 import { Link, useNavigate } from "react-router-dom"
 import React from 'react'
-import { useCart } from 'react-use-cart'
+import { useCart } from 'react-use-cart'       
 import { checkout } from '../../hooks/useCheckout'
 
 
@@ -30,7 +30,7 @@ const ViewCart = () => {
     await checkUser()
   }
 
-  // if (isEmpty) return <div className='section__padding'><p>Your cart is empty</p></div>
+  if (isEmpty) return <div className='section__padding'><p>Your cart is empty</p></div>
 
   return (
     <section className="cart-item">

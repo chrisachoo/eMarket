@@ -40,8 +40,8 @@ const Address = ({ isScriptLoaded, isScriptLoadSucceed }) => {
                 {loading && <div>Loading...</div>}
                 {suggestions.map((suggestion) => {
                   const style = suggestion.active ?
-                    { backgroundColor: '#a83232', cursor: 'pointer' } :
-                    { backgroundColor: '#ffffff', cursor: 'pointer' }
+                    { backgroundColor: '#a83232', cursor: 'pointer', padding: '8px', marginTop: '8px' } :
+                    { backgroundColor: '#ffffff', cursor: 'pointer', padding: '8px', marginTop: '8px' }
 
                   return (
                     <div key={suggestion.id} {...getSuggestionItemProps(suggestion, { style })}>
