@@ -25,11 +25,12 @@ const Checkout = () => {
     removeItem
   } = useCart();
 
-  const [value, setValue] = useState(false);
-  const onChangeValue = (event) => {
-    console.log(event.target.value);
-    setValue(!value);
+  let price = 0
+  for (let j = 0; j < items.length; j++) {
+    price = price + items[j].price
   }
+
+  console.log({items})
 
   return (
     <>
@@ -153,55 +154,6 @@ const Checkout = () => {
             </div> */}
           </div>
 
-          <p className="mt-8 text-lg font-medium">Shipping Methods</p>
-          <form className="mt-5 grid gap-6">
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_1"
-                type="radio"
-                name="fedEx"
-                onChange={onChangeValue}
-                checked={value}
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_1"
-              >
-                <img className="w-14 object-contain" src={FedEx} alt="" />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">Fedex Delivery</span>
-                  <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
-                  </p>
-                </div>
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_2"
-                type="radio"
-                name="dhl"
-                onChange={onChangeValue}
-                checked={value}
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_2"
-              >
-                <img className="w-14 object-contain" src={DHL} alt="" />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">DHL Delivery</span>
-                  <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
-                  </p>
-                </div>
-              </label>
-            </div>
-          </form>
         </div>
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <p className="text-xl font-medium">Payment Details</p>
@@ -330,32 +282,32 @@ const Checkout = () => {
                       placeholder="CVV"
                     />
                   </div>
-                  <label
+                  {/* <label
                     htmlFor="billing-address"
                     className="mt-4 mb-2 block text-sm font-medium"
                   >
                     Billing Address
                   </label>
-                  {/* <Address className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" /> */}
+                  <Address className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" /> */}
                   <div className="flex flex-col sm:flex-row"></div>
 
                   <div className="mt-6 border-t border-b py-2">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                      <p className="font-semibold text-gray-900">$399.00</p>
+                      <p className="font-semibold text-gray-900">R {numberFormatter.format(price)}</p>
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-medium text-gray-900">Shipping</p>
-                      <p className="font-semibold text-gray-900">$8.00</p>
+                      <p className="font-semibold text-gray-900">R 99.00</p>
                     </div>
                   </div>
                   <div className="mt-6 flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-900">Total</p>
-                    <p className="text-2xl font-semibold text-gray-900">$408.00</p>
+                    <p className="text-2xl font-semibold text-gray-900">R {numberFormatter.format(price + 99.00)}</p>
                   </div>
                 </div>
                 <button
-                  className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                  className="mt-4 mb-4 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
                   type="submit"
                 >
                   Place Order
@@ -363,7 +315,11 @@ const Checkout = () => {
               </Form>
             )}
           </Formik>
-
+          <button type="button" className="mb-4 w-full px-6 py-2 border rounded-md dark:border-violet-400"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </>

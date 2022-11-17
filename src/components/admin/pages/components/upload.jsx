@@ -38,6 +38,7 @@ const Upload = ({ data, shops }) => {
     formData.append("upload_preset", "pdiwvwhw")
     let { name, description, price, quantity, category_id, shop_id } = form
     console.log({ form })
+    console.log(formData)
 
     await axios.post(`https://api.cloudinary.com/v1_1/edu-inc/image/upload`, formData).then((responce) => {
       console.log({ responce })
@@ -113,7 +114,7 @@ const Upload = ({ data, shops }) => {
           </select>
           <button className="btn btn-primary" type="submit" disabled={isLoading}>
             Submit
-          </button>
+          </button> 
         </form>
       </div>
     </>

@@ -21,6 +21,12 @@ function App() {
   const { getAllCategory } = useShop()
   const location = useLocation()
 
+  const [lat, setLat] = useState(null)
+  const [long, setLong] = useState(null)
+  const [places, setPlaces] = useState([])
+  const [error, setError] = useState(null)
+  const geolocationAPI = navigator.geolocation
+
   useEffect(() => {
     const fetchAllData = async () => {
       const category = await getAllCategory()
@@ -43,6 +49,70 @@ function App() {
     fetchAllData()
   }, [])
 
+  const getUserCoordinates = () => {
+    if (!geolocationAPI) {
+      setError('Geolocation API is not available in your browser.')
+    } else {
+      geolocationAPI.getCurrentPosition(position => {
+        const { coords } = position;
+        setLat(coords.latitude)
+        setLong(coords.longitude)
+      }, (error) => {
+        setError('Something went wrong getting your position!')
+      })
+    }
+  }
+
+
+  const fetchNearestPlacesFromGoogle = async () => {
+    const radius = 4 * 1000
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=' + radius + '&key=' + import.meta.env.VITE_APP_GOOGLE_MAP_API
+
+    fetch(url, { headers: { 'Content-Type': 'application/json' } }).then(res => {
+      return res.json()
+    })
+      .then(res => {
+        for (let googlePlace of res.results) {
+          var place = {}
+          var latitude = googlePlace.geometry.location.lat
+          var longitude = googlePlace.geometry.location.lng
+          var coordinate = {
+            latitude: latitude,
+            longitude: longitude
+          }
+
+          var gallery = []
+          if (googlePlace.photos) {
+            for (let photo of googlePlace.photos) {
+              var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference
+              gallery.push(photoUrl)
+            }
+          }
+
+          place['placeTypes'] = googlePlace.types
+          place['coordinate'] = coordinate
+          place['placeId'] = googlePlace.place_id
+          place['placeName'] = googlePlace.name
+          place['gallery'] = gallery
+
+          places.push(place);
+        }
+        console.log(places)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  getUserCoordinates()
+  fetchNearestPlacesFromGoogle()
+
+
+  console.log({
+    lat: lat,
+    long: long
+  })
+
   return (
     <>
       {
@@ -50,7 +120,7 @@ function App() {
         location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Navigation />
       }
       <Routes>
-        <Route path='/' element={<Onboarding category={isCategory} malls={malls}/>} />
+        <Route path='/' element={<Onboarding category={isCategory} malls={malls} />} />
         <Route path='/signup' element={<Singup />} />
         <Route path='/signin' element={<Singin />} />
         <Route path='/profile' element={<Profile />} />
@@ -59,7 +129,7 @@ function App() {
         <Route path='/payment-checkout' element={<Checkout />} />
         <Route path='/view product' element={<Compare />} />
 
-        <Route path='/admin/dashboard' element={<Dashboard malls={malls}/>} />
+        <Route path='/admin/dashboard' element={<Dashboard malls={malls} />} />
       </Routes>
 
       {
