@@ -12,6 +12,7 @@ import {
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
 import { Dashboard } from './components/admin'
+import { distance } from './components/hooks/useLoacation'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 
@@ -21,11 +22,33 @@ function App() {
   const { getAllCategory } = useShop()
   const location = useLocation()
 
-  const [lat, setLat] = useState(null)
-  const [long, setLong] = useState(null)
-  const [places, setPlaces] = useState([])
-  const [error, setError] = useState(null)
-  const geolocationAPI = navigator.geolocation
+  const [locationPosition, setLocationPosition] = useState({})
+  const locationTotal = trialDetail.locations.length
+
+  // get closest final object:
+  // locationTotal is the length of Location, only if it's not empty
+  const getFinalTrial = () => {
+    if (trialDetail && locationTotal >= 1) {
+      const trialLatitude = trialDetail.location.map(el => el.latitude)
+      const trialLongitude = trialDetail.location.map(el => el.longitude)
+      distanceArray = trialLatitude.map((lat, idx) => {
+        const log = trialLongitude[idx]
+        return distance(
+          locationPosition.defaultLatitude,
+          locationPosition.defaultLongitude,
+          lat, log
+        )
+      })
+
+      // Above returns an Array, then find the shortest distance, and get the index of this distance
+      // display this index value from Trial object
+      const closest = Math.min(...distanceArray)
+      console.log({ closest })
+      const closestLocationIndex = distanceArray.IndexOf(closest)
+      return trialDetail.locations[closestLocationIndex]
+    }
+    return {}
+  }
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -46,75 +69,23 @@ function App() {
         setMalls(data)
       })
 
+
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser')
+    } else {
+      navigator.geolocation.getCurrentPosition(position => {
+        setLocationPosition({
+          ...position,
+          defaultLatitude: position.coords.latitude,
+          defaultLongitude: position.coords.longitude
+        })
+      })
+    }
+
     fetchAllData()
   }, [])
 
-  const getUserCoordinates = () => {
-    if (!geolocationAPI) {
-      setError('Geolocation API is not available in your browser.')
-    } else {
-      geolocationAPI.getCurrentPosition(position => {
-        const { coords } = position;
-        setLat(coords.latitude)
-        setLong(coords.longitude)
-      }, (error) => {
-        setError('Something went wrong getting your position!')
-      })
-    }
-  }
-
-
-  const fetchNearestPlacesFromGoogle = async () => {
-    const radius = 4 * 1000
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=' + radius + '&key=' + import.meta.env.VITE_APP_GOOGLE_MAP_API
-
-    fetch(url, 
-      { headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin': 'http://127.0.0.1:5173/'} 
-    }).then(res => {
-      return res.json()
-    })
-      .then(res => {
-        for (let googlePlace of res.results) {
-          var place = {}
-          var latitude = googlePlace.geometry.location.lat
-          var longitude = googlePlace.geometry.location.lng
-          var coordinate = {
-            latitude: latitude,
-            longitude: longitude
-          }
-
-          var gallery = []
-          if (googlePlace.photos) {
-            for (let photo of googlePlace.photos) {
-              var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference
-              gallery.push(photoUrl)
-            }
-          }
-
-          place['placeTypes'] = googlePlace.types
-          place['coordinate'] = coordinate
-          place['placeId'] = googlePlace.place_id
-          place['placeName'] = googlePlace.name
-          place['gallery'] = gallery
-
-          places.push(place);
-        }
-        console.log(places)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  getUserCoordinates()
-  fetchNearestPlacesFromGoogle()
-
-
-  console.log({
-    lat: lat,
-    long: long
-  })
-
+  console.log({ locationPosition })
   return (
     <>
       {
