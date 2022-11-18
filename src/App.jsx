@@ -68,7 +68,9 @@ function App() {
     const radius = 4 * 1000
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=' + radius + '&key=' + import.meta.env.VITE_APP_GOOGLE_MAP_API
 
-    fetch(url, { headers: { 'Content-Type': 'application/json' } }).then(res => {
+    fetch(url, 
+      { headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin': 'http://127.0.0.1:5173/'} 
+    }).then(res => {
       return res.json()
     })
       .then(res => {

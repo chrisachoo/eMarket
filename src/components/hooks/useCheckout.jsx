@@ -14,8 +14,53 @@ export const checkout = () => {
     if (!user) {
       navigate('/signin')
     } else {
-      alert('dispatch exist')
       navigate('/payment-checkout')
+    }
+  }
+
+  const checkoutProducts = async (card_number, exp_date, cvv) => {
+    setIsLoading(true)
+    setError(null)
+    const token = user.token
+
+    const response = await fetch(`${_url}/payment/save-card`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ card_number, exp_date, cvv, token })
+    }).catch((err) => {
+      console.log(err)
+    })
+    const json = await response.json()
+    console.log({ response })
+
+    if (!response.ok) {
+      setIsLoading(false)
+      setError(json.error)
+    }
+
+    if (response.ok) {
+      setIsLoading(false)
+    }
+  }
+
+  const proceedCheckout = async () => {
+    const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ card_number, exp_date, cvv, token })
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    const res = await response.json()
+
+    if (!response.ok) {
+      setIsLoading(false)
+      setError(json.error)
+    }
+
+    if (response.ok) {
+      setIsLoading(false)
     }
   }
 
