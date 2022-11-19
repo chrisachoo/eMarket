@@ -23,6 +23,12 @@ export const checkout = () => {
     setError(null)
     const token = user.token
 
+    console.log({
+      card_number: card_number,
+      exp_date: exp_date,
+      cvv: cvv
+    })
+
     const response = await fetch(`${_url}/payment/save-card`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,7 +37,7 @@ export const checkout = () => {
       console.log(err)
     })
     const json = await response.json()
-    console.log({ response })
+    console.log({ json })
 
     if (!response.ok) {
       setIsLoading(false)
@@ -43,20 +49,27 @@ export const checkout = () => {
     }
   }
 
-  const proceedCheckout = async () => {
+  const proceedCheckout = async (category_id, product_id, total) => {
+    console.log({
+      category_id: category_id,
+      product_id: product_id,
+      total: total
+    })
+    const token = user.token
     const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ card_number, exp_date, cvv, token })
+      body: JSON.stringify({ category_id, product_id, total, token })
     }).catch((err) => {
       console.log(err)
     })
 
     const res = await response.json()
+    console.log({res})
 
     if (!response.ok) {
       setIsLoading(false)
-      setError(json.error)
+      setError(res.error)
     }
 
     if (response.ok) {
@@ -64,5 +77,5 @@ export const checkout = () => {
     }
   }
 
-  return { checkUser, isLoading, error }
+  return { checkUser, checkoutProducts, proceedCheckout, isLoading, error }
 }

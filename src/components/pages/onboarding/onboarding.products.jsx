@@ -31,7 +31,6 @@ const ListProducts = () => {
     } else {
       navigate('/signin')
     }
-
   }
 
   return (

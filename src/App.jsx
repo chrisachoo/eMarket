@@ -8,12 +8,14 @@ import {
   ViewCart,
   ProductList,
   Checkout,
-  Compare
+  Compare,
+  ThankYou
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
 import { Dashboard } from './components/admin'
 import { distance } from './components/hooks/useLoacation'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import { useProducts } from './components/hooks/useProducts'
 import './App.css'
 
 function App() {
@@ -21,54 +23,63 @@ function App() {
   const [malls, setMalls] = useState([])
   const { getAllCategory } = useShop()
   const location = useLocation()
+  const [products, setProducts] = useState()
+  const { getAllProducts } = useProducts()
+
+  const trialDetail = {
+    location: "",
+    recruiting_status: "",
+    organisation: "",
+    starts: "",
+    locations: [
+      { latitude: -25.550396811300896, longitude: 28.089496313171768 },
+      { latitude: -25.54999993605883, longitude: 28.090086392414616 },
+      { latitude: -25.549651457611937, longitude: 28.09060136901478 }
+    ]
+  }
 
   const [locationPosition, setLocationPosition] = useState({})
+  const [finalInfo, setFinalInfo] = useState({})
   const locationTotal = trialDetail.locations.length
 
   // get closest final object:
   // locationTotal is the length of Location, only if it's not empty
-  const getFinalTrial = () => {
-    if (trialDetail && locationTotal >= 1) {
-      const trialLatitude = trialDetail.location.map(el => el.latitude)
-      const trialLongitude = trialDetail.location.map(el => el.longitude)
-      distanceArray = trialLatitude.map((lat, idx) => {
-        const log = trialLongitude[idx]
-        return distance(
-          locationPosition.defaultLatitude,
-          locationPosition.defaultLongitude,
-          lat, log
-        )
-      })
+  // const getFinalTrial = () => {
+  //   if (trialDetail && locationTotal >= 1) {
+  //     const trialLatitude = trialDetail.locations.map(el => el.latitude)
+  //     const trialLongitude = trialDetail.locations.map(el => el.longitude)
+  //     const distanceArray = trialLatitude.map((lat, idx) => {
+  //       const log = trialLongitude[idx]
+  //       return distance(
+  //         locationPosition.defaultLatitude,
+  //         locationPosition.defaultLongitude,
+  //         lat, log
+  //       )
+  //     })
 
-      // Above returns an Array, then find the shortest distance, and get the index of this distance
-      // display this index value from Trial object
-      const closest = Math.min(...distanceArray)
-      console.log({ closest })
-      const closestLocationIndex = distanceArray.IndexOf(closest)
-      return trialDetail.locations[closestLocationIndex]
-    }
-    return {}
-  }
+  //     // Above returns an Array, then find the shortest distance, and get the index of this distance
+  //     // display this index value from Trial object
+  //     const closest = Math.min(...distanceArray)
+  //     console.log({ closest })
+  //     const closestLocationIndex = distanceArray.indexOf(closest)
+  //     return trialDetail.locations[closestLocationIndex]
+  //   }
+  //   return {}
+  // }
 
   useEffect(() => {
     const fetchAllData = async () => {
       const category = await getAllCategory()
+      const product = await getAllProducts()
       console.log({ category })
+      console.log({ product })
       if (category) {
         setIsCategory(category)
       }
+      if (product) {
+        setProducts(product)
+      }
     }
-
-    fetch('https://e-mall-backend.herokuapp.com/mall/get-malls')
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        throw res
-      }).then(data => {
-        setMalls(data)
-      })
-
 
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser')
@@ -85,6 +96,20 @@ function App() {
     fetchAllData()
   }, [])
 
+  // useEffect(() => {
+  //   const finalLocationInfo = getFinalTrial()
+
+  //   setFinalInfo({
+  //     ...finalLocationInfo,
+  //     locationAdress: `${finalLocationInfo.city},
+  //                     ${finalLocationInfo.state_province}
+  //                     ${finalLocationInfo.country}`,
+
+  //     recruitmentStatus: finalLocationInfo.recruitment_status,
+  //     organisationAdress: finalLocationInfo.name,
+  //   })
+  // }, [getFinalTrial])
+
   console.log({ locationPosition })
   return (
     <>
@@ -93,13 +118,14 @@ function App() {
         location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Navigation />
       }
       <Routes>
-        <Route path='/' element={<Onboarding category={isCategory} malls={malls} />} />
+        <Route path='/' element={<Onboarding category={isCategory} product={products} />} />
         <Route path='/signup' element={<Singup />} />
         <Route path='/signin' element={<Singin />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/cart' element={<ViewCart />} />
         <Route path='/prod-list' element={<ProductList />} />
         <Route path='/payment-checkout' element={<Checkout />} />
+        <Route path='/thank-you' element={<ThankYou />} />
         <Route path='/view product' element={<Compare />} />
 
         <Route path='/admin/dashboard' element={<Dashboard malls={malls} />} />

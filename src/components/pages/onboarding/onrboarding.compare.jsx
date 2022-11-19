@@ -1,10 +1,13 @@
 import { useLocation } from "react-router-dom"
+import { useCart } from 'react-use-cart'
 
 const ComparePrices = () => {
   const { state } = useLocation()
-  console.log(state)
+  const { addItem } = useCart()
+  console.log({state})
 
   const numberFormatter = Intl.NumberFormat('en-US')
+  const addToCart = item => addItem(item)
 
   return (
     <>

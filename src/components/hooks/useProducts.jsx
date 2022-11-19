@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { useNavigate } from 'react-router-dom'
 
-const products = async () => {
+export const useProducts = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuthContext()
+  const _url = 'https://e-mall-backend.herokuapp.com'
 
   const getAllProducts = async () => {
     const response = await fetch(`${_url}/product/get-all-products`, {

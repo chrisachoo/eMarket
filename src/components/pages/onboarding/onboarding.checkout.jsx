@@ -6,17 +6,27 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup"
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext"
+import { checkout } from "../../hooks/useCheckout"
+const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
 const CheckoutSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Field required'),
   cardHolder: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
-    .required('Field required')
+    .required('Field required'),
+  cvv: Yup.number()
+    .required().positive().integer(),
+  card_number: Yup.number()
+    .positive()
+    .integer()
+    .truncate()
 })
 
 const Checkout = () => {
   const numberFormatter = Intl.NumberFormat("en-US");
+  const { checkoutProducts, proceedCheckout, isLoading } = checkout()
+  const { user } = useAuthContext()
   const {
     isEmpty,
     totalUniqueItems,
@@ -25,12 +35,29 @@ const Checkout = () => {
     removeItem
   } = useCart();
 
-  let price = 0
-  for (let j = 0; j < items.length; j++) {
-    price = price + items[j].price
-  }
 
-  console.log({items})
+  const category_id = items.map(element => {
+    return element.category_id
+  })
+
+  const product_id = items.map(element => {
+    return element.id
+  })
+
+  const prices = items.map(element => {
+    return element.price
+  })
+
+  const price = prices.reduce((accumulate, value) => {
+    return accumulate + value
+  }, 0)
+  const total = price + 99
+
+  // let price = 0
+  // for (let j = 0; j < items.length; j++) {
+  //   price = price + items[j].price
+  // }
+
 
   return (
     <>
@@ -132,7 +159,7 @@ const Checkout = () => {
                     alt=""
                   />
                   <div className="flex w-full flex-col px-4 py-4">
-                    <span className="font-semibold">{element.description}</span>
+                    {/* <span className="font-semibold">{element.description}</span> */}
                     <span className="float-right text-gray-400">
                       {element.name}
                     </span>
@@ -155,7 +182,7 @@ const Checkout = () => {
           </div>
 
         </div>
-        <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+        <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0" style={{ height: "fit-content" }}>
           <p className="text-xl font-medium">Payment Details</p>
           <p className="text-gray-400">
             Complete your order by providing your payment details.
@@ -163,15 +190,17 @@ const Checkout = () => {
 
           <Formik
             initialValues={{
-              email: "",
               cardHolder: "",
-              cardNumber: "",
-              expYear: "",
-              CVV: "",
+              card_number: "",
+              exp_date: "",
+              cvv: "",
             }}
             validationSchema={CheckoutSchema}
             onSubmit={values => {
               console.log({ values })
+              const { card_number, exp_date, cvv } = values
+              // checkoutProducts(card_number, exp_date, cvv)
+              proceedCheckout(category_id, product_id, total)
             }}
           >
             {({ errors, touched }) => (
@@ -188,10 +217,11 @@ const Checkout = () => {
                       type="text"
                       id="email"
                       name="email"
+                      value={user.email}
+                      disabled={true}
                       className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="your.email@gmail.com"
                     />
-                    {errors.email && touched.email ? (<div className="text-orange-600">{errors.email}</div>) : null}
                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -223,6 +253,8 @@ const Checkout = () => {
                       className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="Your full name here"
                     />
+                    {errors.cardHolder && touched.cardHolder ? (<div className="text-orange-600">{errors.cardHolder}</div>) : null}
+
                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -249,9 +281,9 @@ const Checkout = () => {
                   <div className="flex">
                     <div className="relative w-7/12 flex-shrink-0">
                       <Field
-                        type="text"
+                        type="number"
                         id="card-no"
-                        name="cardNumber"
+                        name="card_number"
                         className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="xxxx-xxxx-xxxx-xxxx"
                       />
@@ -271,17 +303,22 @@ const Checkout = () => {
                     </div>
                     <Field
                       type="text"
-                      name="expYear"
+                      name="exp_date"
                       className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="MM/YY"
+                      pattern='[0-9]{2}/[0-9]{2}'
+                      required
                     />
                     <Field
-                      type="text"
-                      name="CVV"
+                      type="number"
+                      name="cvv"
                       className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="CVV"
                     />
                   </div>
+                  {errors.cvv && touched.cvv ? (<div className="text-orange-600">{errors.cvv}</div>) : null}
+                  {errors.card_number && touched.card_number ? (<div className="text-orange-600">{errors.card_number}</div>) : null}
+
                   {/* <label
                     htmlFor="billing-address"
                     className="mt-4 mb-2 block text-sm font-medium"
@@ -309,6 +346,7 @@ const Checkout = () => {
                 <button
                   className="mt-4 mb-4 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
                   type="submit"
+                  disabled={isLoading}
                 >
                   Place Order
                 </button>

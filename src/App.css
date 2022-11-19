@@ -101,6 +101,13 @@ div.error {
   z-index: 999;
 }
 
+.highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin-top: 2em;
+}
+
 /* ADMIN */
 
 .admin-flex {

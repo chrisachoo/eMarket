@@ -1,3 +1,5 @@
 export { default as Navigation } from './organisms/navigation.organisms'
 export { default as Footer } from './organisms/footer.organisms'
 export { default as Loader } from './atoms/loader'
+export { default as Paginate } from './atoms/atoms.paginate'
+export { default as Card } from './atoms/card'
