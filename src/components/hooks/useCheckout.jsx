@@ -3,10 +3,10 @@ import { useAuthContext } from './useAuthContext'
 import { useNavigate } from 'react-router-dom'
 
 export const checkout = () => {
-  let navigate = useNavigate()
 
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
   const { user } = useAuthContext()
   const _url = 'https://e-mall-backend.herokuapp.com'
 
@@ -49,23 +49,20 @@ export const checkout = () => {
     }
   }
 
-  const proceedCheckout = async (category_id, product_id, total) => {
-    console.log({
-      category_id: category_id,
-      product_id: product_id,
-      total: total
-    })
+  const proceedCheckout = async (product_id, shop_id, quantity, totalDue) => {
+    setIsLoading(true)
     const token = user.token
+
     const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category_id, product_id, total, token })
+      body: JSON.stringify({ product_id, shop_id, quantity, totalDue, token })
     }).catch((err) => {
       console.log(err)
     })
 
     const res = await response.json()
-    console.log({res})
+    console.log({ res })
 
     if (!response.ok) {
       setIsLoading(false)
@@ -74,6 +71,9 @@ export const checkout = () => {
 
     if (response.ok) {
       setIsLoading(false)
+      localStorage.removeItem('react-use-cart')
+      window.location.reload()
+      navigate('/thank-you')
     }
   }
 

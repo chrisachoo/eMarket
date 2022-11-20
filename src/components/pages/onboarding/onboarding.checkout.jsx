@@ -34,10 +34,11 @@ const Checkout = () => {
     updateItemQuantity,
     removeItem
   } = useCart();
+  console.log({ items })
 
 
-  const category_id = items.map(element => {
-    return element.category_id
+  const quantity = items.map(element => {
+    return element.quantity
   })
 
   const product_id = items.map(element => {
@@ -48,10 +49,14 @@ const Checkout = () => {
     return element.price
   })
 
+  const shop_id = items.map(element => {
+    return element.shop_id
+  })
+
   const price = prices.reduce((accumulate, value) => {
     return accumulate + value
   }, 0)
-  const total = price + 99
+  const totalDue = price + 99
 
   // let price = 0
   // for (let j = 0; j < items.length; j++) {
@@ -200,7 +205,7 @@ const Checkout = () => {
               console.log({ values })
               const { card_number, exp_date, cvv } = values
               // checkoutProducts(card_number, exp_date, cvv)
-              proceedCheckout(category_id, product_id, total)
+              proceedCheckout(product_id, shop_id, quantity, totalDue)
             }}
           >
             {({ errors, touched }) => (

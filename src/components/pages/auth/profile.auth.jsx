@@ -33,6 +33,8 @@ const Profile = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     let { first_name, last_name, email, cellno } = form
+    const address = JSON.parse(sessionStorage.getItem('address'))
+    console.log({ address })
 
     if (!first_name) {
       setError('Field can not be empty!')
@@ -58,7 +60,7 @@ const Profile = () => {
                   if (cellno.length < 10 || cellno.length > 10) {
                     setError('Too long, must be 10 digits in length')
                   } else {
-                    await updateUser(first_name, last_name, email, cellno)
+                    await updateUser(first_name, last_name, email, cellno, address)
                   }
   }
 

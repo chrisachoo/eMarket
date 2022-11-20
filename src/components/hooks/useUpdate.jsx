@@ -9,16 +9,22 @@ export const useUpdate = () => {
   const _url = 'https://e-mall-backend.herokuapp.com'
   const { user } = useAuthContext()
 
-  const updateUser = async (first_name, last_name, email, cellno) => {
+  const updateUser = async (first_name, last_name, email, cellno, address) => {
     setIsLoading(true)
     const token = user.token
 
-    console.log(`firstName: ${first_name}, lastName: ${last_name}, email: ${email}, cellno: ${cellno}, token: ${token}`)
+    console.log({
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      cellno: cellno,
+      address: address
+    })
 
     const response = await fetch(`${_url}/user/update-profile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ first_name, last_name, email, cellno, token })
+      body: JSON.stringify({ first_name, last_name, email, cellno, address, token })
     }).catch((err) => {
       console.log(err)
     })
