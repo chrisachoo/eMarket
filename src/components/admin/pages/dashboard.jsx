@@ -83,12 +83,12 @@ const Dashboard = ({ malls }) => {
               Users
             </a>
           </li>
-          <li onClick={() => setActiveTab('add-products')}>
+          {/* <li onClick={() => setActiveTab('add-products')}>
             <a>
               <MdOutlineProductionQuantityLimits className="h-5 w-5" />
               Add product
             </a>
-          </li>
+          </li> */}
           <li>
             <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" download>
               <TbReport className="h-5 w-5" />

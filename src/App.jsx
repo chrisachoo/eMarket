@@ -16,15 +16,17 @@ import { Dashboard, TailwindDashboard } from './components/admin'
 import { distance } from './components/hooks/useLoacation'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useProducts } from './components/hooks/useProducts'
+import { useMalls } from './components/hooks/useMalls'
 import './App.css'
 
 function App() {
   const [isCategory, setIsCategory] = useState()
-  const [malls, setMalls] = useState([])
+  const [isMalls, setIsMalls] = useState([])
   const { getAllCategory } = useShop()
   const location = useLocation()
   const [products, setProducts] = useState()
   const { getAllProducts } = useProducts()
+  const { malls } = useMalls()
 
   const trialDetail = {
     location: "",
@@ -71,6 +73,7 @@ function App() {
     const fetchAllData = async () => {
       const category = await getAllCategory()
       const product = await getAllProducts()
+      const mall = await malls()
       console.log({ category })
       console.log({ product })
       if (category) {
@@ -78,6 +81,9 @@ function App() {
       }
       if (product) {
         setProducts(product)
+      }
+      if (mall) {
+        setIsMalls(mall)
       }
     }
 
@@ -128,7 +134,7 @@ function App() {
         <Route path='/thank-you' element={<ThankYou />} />
         <Route path='/view product' element={<Compare />} />
 
-        <Route path='/admin/dashboard' element={<Dashboard malls={malls} />} />
+        <Route path='/admin/dashboard' element={<Dashboard malls={isMalls} />} />
         <Route path='/dashboard' element={<TailwindDashboard />} />
       </Routes>
 
