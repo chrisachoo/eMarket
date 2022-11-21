@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { checkout } from "../../hooks/useCheckout"
 import { AnimateButton } from "../..";
+import moment from 'moment/moment'
 const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
 const CheckoutSchema = Yup.object().shape({
@@ -30,6 +31,7 @@ const Checkout = () => {
   const { checkoutProducts, proceedCheckout, isLoading } = checkout()
   const navigate = useNavigate()
   const { user } = useAuthContext()
+  const [validate, setValidate] = useState(null)
   const {
     isEmpty,
     totalUniqueItems,
@@ -38,6 +40,9 @@ const Checkout = () => {
     removeItem
   } = useCart();
   console.log({ items })
+  const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
+  const today = moment().format('MM')
+  const currentYear = moment().format('YY')
 
 
   const quantity = items.map(element => {
@@ -208,7 +213,56 @@ const Checkout = () => {
               console.log({ values })
               const { cardHolder: fullName, card_number, exp_date, cvv } = values
               // checkoutProducts(card_number, exp_date, cvv)
-              proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+
+              if (card_number.length == 0) {
+                setValidate('Unknown card type')
+              }
+              else
+                if (card_number.length <= 15) {
+                  setValidate('Too short! Card number must be 16 numbers long')
+                }
+                else
+                  if (card_number == '5490997771092064') {
+                    setValidate('Warning! This credit card number is associated with a scam attempt')
+                  }
+                  else
+                    if (card_number.length > 16) {
+                      setValidate('Warning! card number can not be more than 16 numbers')
+                    }
+                    else
+                      if (!dateRegex.test(exp_date)) {
+                        setValidate('Invalid date format')
+                      }
+                      else
+                        if (dateRegex.test(exp_date)) {
+                          const month = exp_date.split('/')[0]
+                          const year = exp_date.split('/')[1]
+
+                          if (month > 12) {
+                            setValidate('Nice try! 😎 we have no month beyond 12 month and the format should be: MM/YY')
+                          } else
+                            if (month <= 0) {
+                              setValidate(`There's no such month ZERO`)
+                            }
+                            else
+                              if (year <= 21) {
+                                setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                              } else
+                                if (month <= today && year <= currentYear) {
+                                  setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                                }
+                                else
+                                  if (cvv.length > 3) {
+                                    setValidate('CVV number too long, must be 3 digits in length')
+                                  } else
+                                    if (cvv.length < 3) {
+                                      setValidate('CVV number too short, must be 3 digits in length')
+                                    }
+                                    else {
+
+                                      proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+                                    }
+                        }
             }}
           >
             {({ errors, touched }) => (
@@ -251,6 +305,9 @@ const Checkout = () => {
                   <div className="w-full rounded-md paypal">
                     <img src={PayPal} alt="PayPal" />
                   </div>
+
+                  {validate && <div className='status'>{validate}</div>}
+
 
                   <label
                     htmlFor="card-holder"
