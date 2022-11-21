@@ -125,12 +125,12 @@ const Onboarding = ({ category, product }) => {
                 }
               }).slice(indexOfFirstPost, indexOfLastPost).map((x) => {
                 return (
-                  <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
-                    onClick={() => viewItem(x)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <a>
-                      <img className="p-8 rounded-t-lg" style={{ width: "100%", objectFit: "fill" }} src={x.picture_url} alt="product image" />
+                  <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <h4 className="text-lg px-5 pt-5 text-orange-300" onClick={() => viewItem(x)} style={{ cursor: "pointer" }}>
+                      View Product
+                    </h4>
+                    <a style={{ display: "flex", justifyContent: "center" }}>
+                      <img className="p-8 rounded-t-lg" style={{ objectFit: "fill", maxHeight: "250px" }} src={x.picture_url} alt="product image" />
                     </a>
                     <div className="px-5 pb-5">
                       <a>
@@ -147,8 +147,9 @@ const Onboarding = ({ category, product }) => {
                         <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                       </div>
                       <div className="flex justify-between items-center" onClick={() => addToCart(x)}>
-                        <span className="text-2xl font-semibold text-gray-900 dark:text-white">R {numberFormatter.format(x.price)}</span>
+                        <span className="text-2xl font-semibold text-gray-900 text-purple-500">R {numberFormatter.format(x.price)}</span>
                         <a className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          style={{ cursor: "pointer" }}
                         >
                           Add to cart
                         </a>

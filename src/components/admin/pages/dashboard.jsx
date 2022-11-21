@@ -16,6 +16,7 @@ import { useReport } from '../hook/useReport'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import AddShops from './components/addshops'
 import { FaShoppingBasket } from 'react-icons/fa'
+import { BsFillFileBarGraphFill } from 'react-icons/bs'
 
 const Dashboard = ({ malls }) => {
   const { state } = useLocation()
@@ -89,9 +90,15 @@ const Dashboard = ({ malls }) => {
             </a>
           </li>
           <li>
-            <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" target="_black">
+            <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" download>
               <TbReport className="h-5 w-5" />
               Products Report
+            </a>
+          </li>
+          <li>
+            <a href='https://e-mall-backend.herokuapp.com/report/generate-sales-report' download>
+              <BsFillFileBarGraphFill className="h-5 w-5" />
+              Sales Report
             </a>
           </li>
           <li onClick={() => setActiveTab("add-shops")}>

@@ -49,32 +49,42 @@ export const checkout = () => {
     }
   }
 
-  const proceedCheckout = async (product_id, shop_id, quantity, totalDue) => {
+  const proceedCheckout = async (product_id, shop_id, quantity, totalDue, fullName) => {
     setIsLoading(true)
     const token = user.token
+    const email = user.email
 
-    const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id, shop_id, quantity, totalDue, token })
-    }).catch((err) => {
-      console.log(err)
+    console.log({
+      product_id: product_id,
+      shop_id: shop_id,
+      quantity: quantity,
+      totalDue: totalDue,
+      fullName: fullName,
+      email: email
     })
 
-    const res = await response.json()
-    console.log({ res })
+    // const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ product_id, shop_id, quantity, totalDue, fullName, email, token })
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
 
-    if (!response.ok) {
-      setIsLoading(false)
-      setError(res.error)
-    }
+    // const res = await response.json()
+    // console.log({ res })
 
-    if (response.ok) {
-      setIsLoading(false)
-      localStorage.removeItem('react-use-cart')
-      window.location.reload()
-      navigate('/thank-you')
-    }
+    // if (!response.ok) {
+    //   setIsLoading(false)
+    //   setError(res.error)
+    // }
+
+    // if (response.ok) {
+    //   setIsLoading(false)
+    //   localStorage.removeItem('react-use-cart')
+    //   window.location.reload()
+    //   navigate('/thank-you')
+    // }
   }
 
   return { checkUser, checkoutProducts, proceedCheckout, isLoading, error }

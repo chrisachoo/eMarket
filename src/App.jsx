@@ -12,7 +12,7 @@ import {
   ThankYou
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
-import { Dashboard } from './components/admin'
+import { Dashboard, TailwindDashboard } from './components/admin'
 import { distance } from './components/hooks/useLoacation'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useProducts } from './components/hooks/useProducts'
@@ -129,6 +129,7 @@ function App() {
         <Route path='/view product' element={<Compare />} />
 
         <Route path='/admin/dashboard' element={<Dashboard malls={malls} />} />
+        <Route path='/dashboard' element={<TailwindDashboard />} />
       </Routes>
 
       {

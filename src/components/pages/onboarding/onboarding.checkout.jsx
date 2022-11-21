@@ -2,12 +2,13 @@ import { useCart } from "react-use-cart";
 import { Address } from "..";
 import FedEx from "../../../assets/FedEx.png";
 import DHL from "../../../assets/DHL.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup"
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { checkout } from "../../hooks/useCheckout"
+import { AnimateButton } from "../..";
 const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
 const CheckoutSchema = Yup.object().shape({
@@ -15,7 +16,7 @@ const CheckoutSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Field required'),
-  cvv: Yup.number()
+  cvv: Yup.number().min(1).max(3)
     .required().positive().integer(),
   card_number: Yup.number()
     .positive()
@@ -26,6 +27,7 @@ const CheckoutSchema = Yup.object().shape({
 const Checkout = () => {
   const numberFormatter = Intl.NumberFormat("en-US");
   const { checkoutProducts, proceedCheckout, isLoading } = checkout()
+  const navigate = useNavigate()
   const { user } = useAuthContext()
   const {
     isEmpty,
@@ -203,9 +205,9 @@ const Checkout = () => {
             validationSchema={CheckoutSchema}
             onSubmit={values => {
               console.log({ values })
-              const { card_number, exp_date, cvv } = values
+              const { cardHolder: fullName, card_number, exp_date, cvv } = values
               // checkoutProducts(card_number, exp_date, cvv)
-              proceedCheckout(product_id, shop_id, quantity, totalDue)
+              proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
             }}
           >
             {({ errors, touched }) => (
@@ -348,13 +350,17 @@ const Checkout = () => {
                     <p className="text-2xl font-semibold text-gray-900">R {numberFormatter.format(price + 99.00)}</p>
                   </div>
                 </div>
-                <button
+                {/* <button
                   className="mt-4 mb-4 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
                   type="submit"
-                  disabled={isLoading}
+                  disabled
                 >
                   Place Order
-                </button>
+                </button> */}
+                <AnimateButton
+                  btnName={`Place Order`}
+                  isLoading={isLoading}
+                />
               </Form>
             )}
           </Formik>
