@@ -2,6 +2,7 @@ import { useCart } from "react-use-cart";
 import { Address } from "..";
 import FedEx from "../../../assets/FedEx.png";
 import DHL from "../../../assets/DHL.png";
+import PayPal from "../../../assets/paypal-seeklogo.com.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup"
@@ -246,6 +247,11 @@ const Checkout = () => {
                       </svg>
                     </div>
                   </div>
+
+                  <div className="w-full rounded-md paypal">
+                    <img src={PayPal} alt="PayPal" />
+                  </div>
+
                   <label
                     htmlFor="card-holder"
                     className="mt-4 mb-2 block text-sm font-medium"
@@ -350,13 +356,6 @@ const Checkout = () => {
                     <p className="text-2xl font-semibold text-gray-900">R {numberFormatter.format(price + 99.00)}</p>
                   </div>
                 </div>
-                {/* <button
-                  className="mt-4 mb-4 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
-                  type="submit"
-                  disabled
-                >
-                  Place Order
-                </button> */}
                 <AnimateButton
                   btnName={`Place Order`}
                   isLoading={isLoading}

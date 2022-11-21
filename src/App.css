@@ -137,6 +137,19 @@ div.error {
   margin-top: 1em;
 }
 
+.paypal {
+  background: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+  padding: 1em;
+}
+
+.paypal img {
+  width: 80px;
+}
+
 @media screen and (min-width: 768px) {
   .onboarding__loader {
     grid-template-columns: 1fr 1fr;
