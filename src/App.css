@@ -131,6 +131,18 @@ div.error {
   }
 }
 
+.onboarding__loader {
+  display: grid;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+@media screen and (min-width: 768px) {
+  .onboarding__loader {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media screen and (max-width: 540px) {
   .grid-cols-one {
     padding: 1em;

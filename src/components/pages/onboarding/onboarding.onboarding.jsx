@@ -64,15 +64,6 @@ const Onboarding = ({ category, product }) => {
   }
 
   const [searchField, setSearchField] = useState("")
-  // const inputHandler = (e) => {
-  //   const lowerCase = e.target.value.toLowerCase()
-  //   setSearchField(lowerCase)
-  // }
-
-  // const filteredProducts = product ? product.filter(element => {
-
-  // }) : null
-
 
   return (
     <>
@@ -82,7 +73,7 @@ const Onboarding = ({ category, product }) => {
         <ul className="menu bg-base-300 rounded-box" style={{ height: "fit-content" }}>
           {category ?
             <div>
-              {category.map((x) => {
+              {category.slice(0,13).map((x) => {
                 return (
                   <li key={x.id} onClick={() => fetchProducts(x)} className="hover-bordered"><a>{x.name}</a></li>
                 )
@@ -159,17 +150,34 @@ const Onboarding = ({ category, product }) => {
                 )
               })}
             </div>
-            : <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-              <div className="animate-pulse flex space-x-4">
-                <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-                <div className="flex-1 space-y-6 py-1">
-                  <div className="h-2 bg-slate-700 rounded"></div>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-2 bg-slate-700 rounded col-span-2"></div>
-                      <div className="h-2 bg-slate-700 rounded col-span-1"></div>
-                    </div>
+            : <div className='onboarding__loader'>
+              <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto mt-2">
+                <div className="animate-pulse flex space-x-4">
+                  <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+                  <div className="flex-1 space-y-6 py-1">
                     <div className="h-2 bg-slate-700 rounded"></div>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                      </div>
+                      <div className="h-2 bg-slate-700 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto mt-2">
+                <div className="animate-pulse flex space-x-4">
+                  <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+                  <div className="flex-1 space-y-6 py-1">
+                    <div className="h-2 bg-slate-700 rounded"></div>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                        <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                      </div>
+                      <div className="h-2 bg-slate-700 rounded"></div>
+                    </div>
                   </div>
                 </div>
               </div>

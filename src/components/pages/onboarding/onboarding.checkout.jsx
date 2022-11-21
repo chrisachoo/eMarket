@@ -16,7 +16,7 @@ const CheckoutSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Field required'),
-  cvv: Yup.number().min(1).max(3)
+  cvv: Yup.number()
     .required().positive().integer(),
   card_number: Yup.number()
     .positive()
