@@ -172,3 +172,13 @@ div.error {
     padding: 1em;
   }
 }
+
+/* CART ERROR */
+.cart__boundry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ .info__text {
+  text-align: center;
+ }

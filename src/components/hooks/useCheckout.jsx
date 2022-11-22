@@ -8,7 +8,8 @@ export const checkout = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuthContext()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  // const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = 'https://e-mall-backend.com'
 
   const checkUser = async () => {
     if (!user) {

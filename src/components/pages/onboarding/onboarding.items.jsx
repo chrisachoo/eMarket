@@ -1,8 +1,9 @@
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi"
 import { Link, useNavigate } from "react-router-dom"
 import React from 'react'
-import { useCart } from 'react-use-cart'       
+import { useCart } from 'react-use-cart'
 import { checkout } from '../../hooks/useCheckout'
+import emptycart from '../../../assets/empty-cart.png'
 
 
 const ViewCart = () => {
@@ -30,7 +31,15 @@ const ViewCart = () => {
     await checkUser()
   }
 
-  if (isEmpty) return <div className='section__padding'><p>Your cart is empty</p></div>
+  if (isEmpty) return (
+    <div className="cart__boundry w-full p-4">
+      <img src={emptycart} alt="empty" />
+      <div className="info__text">
+        <p className="text-2xl text-white">Your cart is empty</p>
+        <p className="text-sm font-light">Looks like you haven't made your choice yet...</p>
+      </div>
+    </div>
+  )
 
   return (
     <section className="cart-item">
@@ -83,14 +92,14 @@ const ViewCart = () => {
           <p>Total amount:
             <span className="font-semibold"> R {formatted}</span>
           </p>
-          <p className="text-sm dark:text-gray-400">Not including taxes and shipping costs</p>
+          <p className="text-sm dark:text-gray-400">Not including taxes and delivery costs</p>
         </div>
         <div className="flex justify-end space-x-4">
           <button type="button" className="px-6 py-2 border rounded-md dark:border-violet-400"
             onClick={() => navigate(-1)}
           >
             Back
-            <span className="sr-only sm:not-sr-only"> to shop</span>
+            <span className="sr-only sm:not-sr-only"> to shopping</span>
           </button>
           <button type="button" className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400"
             onClick={handlePass}
