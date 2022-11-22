@@ -9,6 +9,7 @@ const Upload = ({ data, shops }) => {
 
   const [file, setFile] = useState()
   const [successful, isSuccessful] = useState(null)
+  const [isUploading, setIsUploading] = useState(false)
   const { saveProducts, error, isLoading } = saveProductsDeatils()
   const [form, setForm] = useState({
     name: '',
@@ -18,7 +19,6 @@ const Upload = ({ data, shops }) => {
     category_id: '',
     shop_id: ''
   })
-  const [picture_url, setIsUrl] = useState()
 
   const handleFormChange = (event) => {
     const updatedForm = { ...form }
@@ -32,6 +32,7 @@ const Upload = ({ data, shops }) => {
   }
 
   const handleSubmit = async (event) => {
+    setIsUploading(true)
     event.preventDefault();
     const formData = new FormData()
     formData.append("file", file)
@@ -43,11 +44,11 @@ const Upload = ({ data, shops }) => {
     await axios.post(`https://api.cloudinary.com/v1_1/edu-inc/image/upload`, formData).then((responce) => {
       console.log({ responce })
       if (responce) {
-        setIsUrl(responce.data.secure_url)
+        const picture_url = responce.data.url
         saveProducts(name, description, price, quantity, category_id, shop_id, picture_url)
       }
     })
-
+    setIsUploading(false)
   }
 
   return (
@@ -112,9 +113,9 @@ const Upload = ({ data, shops }) => {
               )
             })}
           </select>
-          <button className="btn btn-primary" type="submit" disabled={isLoading}>
+          <button className="btn btn-primary" type="submit" disabled={isUploading}>
             Submit
-          </button> 
+          </button>
         </form>
       </div>
     </>

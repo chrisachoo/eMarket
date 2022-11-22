@@ -17,7 +17,16 @@ export const saveProductsDeatils = () => {
     setError(null)
     const token = user.token
 
-    console.log(name, description, price, quantity, category_id, shop_id, picture_url)
+    console.log({
+      name: name,
+      description: description,
+      price: price,
+      quantity: quantity,
+      category_id: category_id,
+      shop_id: shop_id,
+      picture_url: picture_url
+    })
+
     const response = await fetch(`${_url}/product/add-product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

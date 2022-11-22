@@ -259,7 +259,6 @@ const Checkout = () => {
                                       setValidate('CVV number too short, must be 3 digits in length')
                                     }
                                     else {
-
                                       proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
                                     }
                         }

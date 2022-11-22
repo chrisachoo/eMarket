@@ -80,7 +80,18 @@ function App() {
         setIsCategory(category)
       }
       if (product) {
-        setProducts(product)
+
+        const uniqueProducts = new Set()
+        const unique = product.filter(element => {
+          const isDuplicate = uniqueProducts.has(element.name)
+          uniqueProducts.add(element.name)
+          if (!isDuplicate) {
+            return true
+          }
+
+          return false
+        })
+        setProducts(unique)
       }
       if (mall) {
         setIsMalls(mall)
