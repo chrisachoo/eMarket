@@ -47,7 +47,17 @@ export const useShop = () => {
 
     if (response.ok) {
       setIsLoading(false)
-      navigate('/prod-list', { state: products })
+      const uniqueProducts = new Set()
+      const unique = products.filter(element => {
+        const isDuplicate = uniqueProducts.has(element.name)
+        uniqueProducts.add(element.name)
+        if (!isDuplicate) {
+          return true
+        }
+
+        return false
+      })
+      navigate('/prod-list', { state: unique })
     }
   }
 

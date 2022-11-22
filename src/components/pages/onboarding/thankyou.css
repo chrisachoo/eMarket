@@ -7,7 +7,7 @@
   background: #ffffff;
   background: linear-gradient(to bottom, #ffffff 0%, #e1e8ed 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e1e8ed', GradientType=0);
-  min-height: 60vh;
+  min-height: 100vh;
   margin: 0;
   background-repeat: no-repeat;
   background-attachment: fixed;

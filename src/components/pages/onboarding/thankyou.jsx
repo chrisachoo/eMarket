@@ -3,6 +3,9 @@ import "./thankyou.css"
 
 const ThankYou = () => {
   const navigate = useNavigate()
+  const navigateHome = () => {
+    window.location.href = "/"
+  }
   return (
     <section className="thankyou">
       <div className="content">
@@ -11,7 +14,7 @@ const ThankYou = () => {
             <h1>Thank you !</h1>
             <p>Thanks for shopping with us 🤗, please comeback again.  </p>
             <p>you should receive a confirmation email soon  </p>
-            <button className="go-home" onClick={() => navigate('/')}>
+            <button className="go-home" onClick={navigateHome}>
               go home
             </button>
           </div>

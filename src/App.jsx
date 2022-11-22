@@ -131,7 +131,7 @@ function App() {
   return (
     <>
       {
-        location.pathname !== '/signup' && location.pathname !== '/signin' &&
+        location.pathname !== '/signup' && location.pathname !== '/signin' && location.pathname !=='/thank-you' &&
         location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Navigation />
       }
       <Routes>
@@ -150,7 +150,7 @@ function App() {
       </Routes>
 
       {
-        location.pathname !== '/signup' && location.pathname !== '/signin' &&
+        location.pathname !== '/signup' && location.pathname !== '/signin' && location.pathname !=='/thank-you' &&
         location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Footer />
       }
     </>
