@@ -44,7 +44,6 @@ const Checkout = () => {
   const today = moment().format('MM')
   const currentYear = moment().format('YY')
 
-
   const quantity = items.map(element => {
     return element.quantity
   })
@@ -267,22 +266,7 @@ const Checkout = () => {
             {({ errors, touched }) => (
               <Form>
                 <div className="">
-                  <label
-                    htmlFor="email"
-                    className="mt-4 mb-2 block text-sm font-medium"
-                  >
-                    Email
-                  </label>
                   <div className="relative">
-                    <Field
-                      type="text"
-                      id="email"
-                      name="email"
-                      value={user.email}
-                      disabled={true}
-                      className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                      placeholder="your.email@gmail.com"
-                    />
                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -8,8 +8,7 @@ export const checkout = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuthContext()
-  // const _url = 'https://e-mall-backend.herokuapp.com'
-  const _url = 'https://e-mall-backend.com'
+  const _url = 'https://e-mall-backend.herokuapp.com'
 
   const checkUser = async () => {
     if (!user) {
@@ -64,28 +63,27 @@ export const checkout = () => {
       email: email
     })
 
-    // const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ product_id, shop_id, quantity, totalDue, fullName, email, token })
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
+    const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_id, shop_id, quantity, totalDue, fullName, email, token })
+    }).catch((err) => {
+      console.log(err)
+    })
 
-    // const res = await response.json()
-    // console.log({ res })
+    const res = await response.json()
+    console.log({ res })
 
-    // if (!response.ok) {
-    //   setIsLoading(false)
-    //   setError(res.error)
-    // }
+    if (!response.ok) {
+      setIsLoading(false)
+      setError(res.error)
+    }
 
-    // if (response.ok) {
-    //   setIsLoading(false)
-    //   localStorage.removeItem('react-use-cart')
-    //   window.location.reload()
-    //   navigate('/thank-you')
-    // }
+    if (response.ok) {
+      setIsLoading(false)
+      localStorage.removeItem('react-use-cart')
+      navigate('/thank-you')
+    }
   }
 
   return { checkUser, checkoutProducts, proceedCheckout, isLoading, error }
