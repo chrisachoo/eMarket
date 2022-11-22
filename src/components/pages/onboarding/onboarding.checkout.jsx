@@ -19,11 +19,9 @@ const CheckoutSchema = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Field required'),
   cvv: Yup.number()
-    .required().positive().integer(),
+    .required(),
   card_number: Yup.number()
-    .positive()
-    .integer()
-    .truncate()
+    .required('Field required')
 })
 
 const Checkout = () => {
@@ -41,8 +39,10 @@ const Checkout = () => {
   } = useCart();
   console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
+  const lengthRegex = new RegExp('^[0-9]{16}$')
   const today = moment().format('MM')
   const currentYear = moment().format('YY')
+  const email = user ? user.email : null
 
   const quantity = items.map(element => {
     return element.quantity
@@ -211,62 +211,66 @@ const Checkout = () => {
             onSubmit={values => {
               console.log({ values })
               const { cardHolder: fullName, card_number, exp_date, cvv } = values
-              // checkoutProducts(card_number, exp_date, cvv)
 
-              if (card_number.length == 0) {
-                setValidate('Unknown card type')
-              }
-              else
-                if (card_number.length <= 15) {
-                  setValidate('Too short! Card number must be 16 numbers long')
-                }
-                else
-                  if (card_number == '5490997771092064') {
-                    setValidate('Warning! This credit card number is associated with a scam attempt')
-                  }
-                  else
-                    if (card_number.length > 16) {
-                      setValidate('Warning! card number can not be more than 16 numbers')
-                    }
-                    else
-                      if (!dateRegex.test(exp_date)) {
-                        setValidate('Invalid date format')
-                      }
-                      else
-                        if (dateRegex.test(exp_date)) {
-                          const month = exp_date.split('/')[0]
-                          const year = exp_date.split('/')[1]
+              if (!lengthRegex.test(card_number)) {
+                setValidate("Card number must be 16 numbers long")
+              } else
+                if (card_number == '5490997771092064') {
+                  setValidate('Warning! This credit card number is associated with a scam attempt')
+                } else
+                  if (!dateRegex.test(exp_date)) {
+                    setValidate('Invalid date format')
+                  } else
+                    if (dateRegex.test(exp_date)) {
+                      const month = exp_date.split('/')[0]
+                      const year = exp_date.split('/')[1]
 
-                          if (month > 12) {
-                            setValidate('Nice try! 😎 we have no month beyond 12 month and the format should be: MM/YY')
+                      if (month > 12) {
+                        setValidate('Nice try! 😎 we have no month beyond 12 month and the format should be: MM/YY')
+                      } else
+                        if (month <= 0) {
+                          setValidate(`There's no such month ZERO`)
+                        }
+                        else
+                          if (year <= 21) {
+                            setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
                           } else
-                            if (month <= 0) {
-                              setValidate(`There's no such month ZERO`)
+                            if (month <= today && year <= currentYear) {
+                              setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
                             }
                             else
-                              if (year <= 21) {
-                                setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                              if (cvv.length > 3) {
+                                setValidate('CVV number too long, must be 3 digits in length')
                               } else
-                                if (month <= today && year <= currentYear) {
-                                  setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                                if (cvv.length < 3) {
+                                  setValidate('CVV number too short, must be 3 digits in length')
                                 }
-                                else
-                                  if (cvv.length > 3) {
-                                    setValidate('CVV number too long, must be 3 digits in length')
-                                  } else
-                                    if (cvv.length < 3) {
-                                      setValidate('CVV number too short, must be 3 digits in length')
-                                    }
-                                    else {
-                                      proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
-                                    }
-                        }
+                                else {
+                                  proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+                                  checkoutProducts(card_number, exp_date, cvv)
+                                }
+                    }
             }}
           >
             {({ errors, touched }) => (
               <Form>
                 <div className="">
+                  <label
+                    htmlFor="email"
+                    className="mt-4 mb-2 block text-sm font-medium"
+                  >
+                    Email
+                  </label>
                   <div className="relative">
+                    <Field
+                      type="text"
+                      id="email"
+                      name="email"
+                      value={email}
+                      disabled={true}
+                      className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="your.email@gmail.com"
+                    />
                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -387,7 +391,7 @@ const Checkout = () => {
                       <p className="font-semibold text-gray-900">R {numberFormatter.format(price)}</p>
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-gray-900">Shipping</p>
+                      <p className="text-sm font-medium text-gray-900">Delivery</p>
                       <p className="font-semibold text-gray-900">R 99.00</p>
                     </div>
                   </div>

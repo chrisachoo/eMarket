@@ -9,14 +9,14 @@ export const useCheaper = () => {
   const navigate = useNavigate()
   const _url = 'https://e-mall-backend.herokuapp.com'
 
-  const getCheaperProduct = async (product_id, shop_id, category_id) => {
+  const getCheaperProduct = async (product_name, product_id, shop_id) => {
     setLoading(true)
     const token = user.token
 
     const response = await fetch(`${_url}/product/get-product-one-product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id, shop_id, category_id, token })
+      body: JSON.stringify({ product_name, product_id, shop_id, token })
     }).catch((err) => {
       console.log(err)
     })

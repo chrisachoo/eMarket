@@ -36,10 +36,10 @@ const Onboarding = ({ category, product }) => {
     console.log({ item })
     const product_id = item.id
     const shop_id = item.shop_id
-    const category_id = item.category_id
+    const product_name = item.name
 
     if (user) {
-      await getCheaperProduct(product_id, shop_id, category_id)
+      await getCheaperProduct(product_name, product_id, shop_id)
     } else {
       navigate('/signin')
     }

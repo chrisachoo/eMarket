@@ -49,7 +49,7 @@ const ComparePrices = () => {
         </div>
         <div className="divider divider-horizontal">OR</div>
         <div className="grid flex-grow card place-items-center">
-          <p className="p-2 text-lg font-semibold"> Shop name: <span className="text-orange-400">{state.cheaperProduct.shop_name}</span></p>
+          <p className="p-2 text-lg font-semibold"> Shop name: <span className="text-orange-400">{state.cheaperProduct.shop}</span></p>
 
           <div className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
             <a>

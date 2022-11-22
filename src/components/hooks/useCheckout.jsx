@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const checkout = () => {
 
@@ -14,7 +16,20 @@ export const checkout = () => {
     if (!user) {
       navigate('/signin')
     } else {
-      navigate('/payment-checkout')
+      if (!user.address) {
+        toast.error("Please go to your profile and edit your address, since it's its empty"), {
+          position: "top-right",
+          autoClose: 9000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      } else {
+        navigate('/payment-checkout')
+      }
     }
   }
 

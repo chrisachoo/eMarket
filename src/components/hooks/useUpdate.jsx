@@ -29,6 +29,7 @@ export const useUpdate = () => {
       console.log(err)
     })
     const json = await response.json()
+    console.log({ json })
 
     if (!response.ok) {
       setIsLoading(false)
@@ -55,7 +56,9 @@ export const useUpdate = () => {
       const newUser = await JSON.parse(sessionStorage.getItem('user'))
       newUser.first_name = first_name,
         newUser.last_name = last_name,
-        newUser.cellno = cellno
+        newUser.cellno = cellno,
+        newUser.email = email,
+        newUser.address = address
 
       sessionStorage.setItem('user', JSON.stringify(newUser))
       console.log('response', JSON.stringify(json))
