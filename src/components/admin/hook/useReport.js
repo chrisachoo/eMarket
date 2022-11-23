@@ -3,6 +3,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import Swal from 'sweetalert2'
+// allow cors
 
 export const useReport = () => {
   const [isGenerating, setIsGenerating] = useState(null)
