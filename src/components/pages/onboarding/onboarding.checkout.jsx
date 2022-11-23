@@ -214,45 +214,42 @@ const Checkout = () => {
 
               if (!lengthRegex.test(card_number)) {
                 setValidate("Warning! Card number must be 16 numbers in length")
-              } else {
-                setValidate("Card number valid")
-              }
-              // } else
-              //   if (card_number == '5490997771092064') {
-              //     setValidate('Warning! This credit card number is associated with a scam attempt')
-              //   } else
-              //     if (!dateRegex.test(exp_date)) {
-              //       setValidate('Invalid date format')
-              //     } else
-              //       if (dateRegex.test(exp_date)) {
-              //         const month = exp_date.split('/')[0]
-              //         const year = exp_date.split('/')[1]
+              } else
+                if (card_number == '5490997771092064') {
+                  setValidate('Warning! This credit card number is associated with a scam attempt')
+                } else
+                  if (!dateRegex.test(exp_date)) {
+                    setValidate('Invalid date format')
+                  } else
+                    if (dateRegex.test(exp_date)) {
+                      const month = exp_date.split('/')[0]
+                      const year = exp_date.split('/')[1]
 
-              //         if (month > 12) {
-              //           setValidate('Nice try! 😎 we have no month beyond 12 month and the format should be: MM/YY')
-              //         } else
-              //           if (month <= 0) {
-              //             setValidate(`There's no such month ZERO`)
-              //           }
-              //           else
-              //             if (year <= 21) {
-              //               setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
-              //             } else
-              //               if (month <= today && year <= currentYear) {
-              //                 setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
-              //               }
-              //               else
-              //                 if (cvv.length > 3) {
-              //                   setValidate('CVV number too long, must be 3 digits in length')
-              //                 } else
-              //                   if (cvv.length < 3) {
-              //                     setValidate('CVV number too short, must be 3 digits in length')
-              //                   }
-              //                   else {
-              //                     proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
-              //                     checkoutProducts(card_number, exp_date, cvv)
-              //                   }
-              //       }
+                      if (month > 12) {
+                        setValidate('Nice try! 😎 we have no month beyond 12 month and the format should be: MM/YY')
+                      } else
+                        if (month <= 0) {
+                          setValidate(`There's no such month ZERO`)
+                        }
+                        else
+                          if (year <= 21) {
+                            setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                          } else
+                            if (month <= today && year <= currentYear) {
+                              setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
+                            }
+                            else
+                              if (cvv.length > 3) {
+                                setValidate('CVV number too long, must be 3 digits in length')
+                              } else
+                                if (cvv.length < 3) {
+                                  setValidate('CVV number too short, must be 3 digits in length')
+                                }
+                                else {
+                                  proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+                                  checkoutProducts(card_number, exp_date, cvv)
+                                }
+                    }
             }}
           >
             {({ errors, touched }) => (
