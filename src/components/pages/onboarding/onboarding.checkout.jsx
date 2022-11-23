@@ -65,11 +65,6 @@ const Checkout = () => {
   }, 0)
   const totalDue = price + 99
 
-  // let price = 0
-  // for (let j = 0; j < items.length; j++) {
-  //   price = price + items[j].price
-  // }
-
 
   return (
     <>
@@ -338,11 +333,12 @@ const Checkout = () => {
                   <div className="flex">
                     <div className="relative w-7/12 flex-shrink-0">
                       <Field
-                        type="number"
+                        type="tel"
                         id="card-no"
                         name="card_number"
                         className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="xxxx-xxxx-xxxx-xxxx"
+                        maxLength={16}
                       />
                       <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                         <svg

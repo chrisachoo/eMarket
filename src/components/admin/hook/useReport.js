@@ -31,17 +31,17 @@ export const useReport = () => {
     }
   }
 
-  const productsReport = async (token) => {
+  const productsReport = async () => {
     setIsGenerating(true)
-    console.log({token})
 
-    const response = await fetch(`${_url}/report/generate-product-report`, {
+    const response = await fetch(`${_url}/report/generate-product-report-for-display`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
       console.log(err)
     })
     const json = await response.json()
+    console.log({ json })
 
     if (!response.ok) {
       setIsGenerating(false)

@@ -17,6 +17,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import AddShops from './components/addshops'
 import { FaShoppingBasket } from 'react-icons/fa'
 import { BsFillFileBarGraphFill } from 'react-icons/bs'
+import ProductsReport from './components/products.report'
 
 const Dashboard = ({ malls }) => {
   const { state } = useLocation()
@@ -25,6 +26,7 @@ const Dashboard = ({ malls }) => {
   const { getAllCategory, shopShops } = useShop()
   const { usersReport, productsReport, isGenerating } = useReport()
   const [shops, setShops,] = useState()
+  const [isProducts, setIsProducts] = useState()
   const { user } = useAuthContext()
   console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
@@ -67,9 +69,15 @@ const Dashboard = ({ malls }) => {
     console.log({ res })
   }
 
-  const generateProducts = async () => {
-    await productsReport()
+  const productsreport = async () => {
+    const res = await productsReport()
+    if (res) {
+      setIsProducts(res)
+      setActiveTab('products')
+    }
   }
+
+
 
 
   return (
@@ -89,8 +97,8 @@ const Dashboard = ({ malls }) => {
               Add product
             </a>
           </li>
-          <li>
-            <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" download>
+          <li onClick={productsreport}>
+            <a>
               <TbReport className="h-5 w-5" />
               Products Report
             </a>
@@ -155,6 +163,7 @@ const Dashboard = ({ malls }) => {
           )}
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
           {activeTab === 'add-shops' && <AddShops cate={options} data={mallsData} />}
+          {activeTab === 'products' && <ProductsReport products={isProducts} />}
         </div>
       </div>
 
