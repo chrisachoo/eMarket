@@ -91,12 +91,12 @@ const Dashboard = ({ malls }) => {
               Users
             </a>
           </li>
-          <li onClick={() => setActiveTab('add-products')}>
+          {/* <li onClick={() => setActiveTab('add-products')}>
             <a>
               <MdOutlineProductionQuantityLimits className="h-5 w-5" />
               Add product
             </a>
-          </li>
+          </li> */}
           <li onClick={productsreport}>
             <a>
               <TbReport className="h-5 w-5" />
@@ -109,12 +109,12 @@ const Dashboard = ({ malls }) => {
               Sales Report
             </a>
           </li>
-          <li onClick={() => setActiveTab("add-shops")}>
+          {/* <li onClick={() => setActiveTab("add-shops")}>
             <a>
               <FaShoppingBasket className="h-5 w-5" />
               Add shops
             </a>
-          </li>
+          </li> */}
           <li onClick={handleSignout}>
             <a>
               <FaSignOutAlt className="h-5 w-5" />
