@@ -7,7 +7,7 @@ const ThankYou = () => {
     window.location.href = "/"
   }
   return (
-    <section className="thankyou">
+    <section className="thankyou ">
       <div className="content">
         <div className="wrapper-1">
           <div className="wrapper-2">
@@ -15,7 +15,7 @@ const ThankYou = () => {
             <p>Thanks for shopping with us 🤗, please comeback again.  </p>
             <p>you should receive a confirmation email soon  </p>
             <button className="go-home" onClick={navigateHome}>
-              go home
+              Continue Shopping
             </button>
           </div>
           <div className="footer-like">

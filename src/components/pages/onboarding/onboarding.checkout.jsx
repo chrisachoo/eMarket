@@ -40,6 +40,7 @@ const Checkout = () => {
   console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
   const lengthRegex = new RegExp('^[0-9]{16}$')
+  const cvvRegex = new RegExp('^[1-9]{3}$')
   const today = moment().format('MM')
   const currentYear = moment().format('YY')
   const email = user ? user.email : null
@@ -234,12 +235,9 @@ const Checkout = () => {
                               setValidate(`Card you trying to use has expired or choose another year and month if you think it's a TYPO`)
                             }
                             else
-                              if (cvv.length > 3) {
+                              if (!cvvRegex.test(cvv)) {
                                 setValidate('CVV number too long, must be 3 digits in length')
-                              } else
-                                if (cvv.length < 3) {
-                                  setValidate('CVV number too short, must be 3 digits in length')
-                                }
+                              } 
                                 else {
                                   proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
                                   checkoutProducts(card_number, exp_date, cvv)
@@ -360,13 +358,15 @@ const Checkout = () => {
                       className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="MM/YY"
                       pattern='[0-9]{2}/[0-9]{2}'
+                      maxLength={5}
                       required
                     />
                     <Field
-                      type="number"
+                      type="text"
                       name="cvv"
                       className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="CVV"
+                      maxLength={3}
                     />
                   </div>
                   {errors.cvv && touched.cvv ? (<div className="text-orange-600">{errors.cvv}</div>) : null}
