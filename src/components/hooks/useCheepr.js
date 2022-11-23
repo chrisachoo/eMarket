@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from './useAuthContext'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const useCheaper = () => {
 
@@ -25,6 +27,16 @@ export const useCheaper = () => {
 
     if (!response.ok) {
       setLoading(false)
+      toast.error("Could not find cheaper product"), {
+        position: "top-right",
+        autoClose: 9000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      }
     }
 
     if (response.ok) {

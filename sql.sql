@@ -64,3 +64,4 @@ VALUES ('Soshanguve Crossing Mall', 'Ruth First Road &, Aubrey Matlakala St, Sos
   ('Westgate Mall', '120 Ontdekkers Road, Roodepoort, 1725'),
   ('Rosebank Mall', 'Cradock Ave, Rosebank, Johannesburg, 2196'),
   ('Hyde Park Corner', 'Cnr Jan Smuts Avenue and William Nicol Drive, 6th Rd, Hyde Park, Johannesburg, 2196');
+

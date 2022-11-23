@@ -56,7 +56,7 @@ const ListProducts = () => {
                 </a>
                 <div className="flex justify-between items-center mt-4">
                   <p className="text-indigo-500 text-2xl font-medium">R {numberFormatter.format(x.price)}</p>
-                  <button class="btn text-white bg-blue-700 hover:bg-blue-800"
+                  <button className="btn text-white bg-blue-700 hover:bg-blue-800"
                     onClick={() => addToCart(x)}
                   >
                     Add to cart
