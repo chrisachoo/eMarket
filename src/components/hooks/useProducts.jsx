@@ -9,12 +9,9 @@ export const useProducts = () => {
   const _url = import.meta.env.VITE_URL_STRING;
 
   const getAllProducts = async () => {
-    const response = await fetch(`${_url}/product/get-all-products`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
+    const response = await fetch(`${_url}/product/get-all-products`)
+      .catch((err) => console.log(err))
+      
     const json = await response.json()
     console.log(json)
 
@@ -27,6 +24,6 @@ export const useProducts = () => {
       return json
     }
   }
-  
+
   return { getAllProducts, isLoading, error }
 }

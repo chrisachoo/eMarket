@@ -10,19 +10,14 @@ export const useSignin = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const { dispatch } = useAuthContext()
-  const { user } = useAuthContext()
   const _url = import.meta.env.VITE_URL_STRING;
 
   const getAllUsers = async (token) => {
     setIsLoading(true)
     setError(null)
 
-    const response = await fetch(`${_url}/user/get-all/${token}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
+    const response = await fetch(`${_url}/user/get-all/${token}`)
+      .catch((err) => console.log(err))
     const json = await response.json()
 
     if (!response.ok) {
@@ -40,9 +35,9 @@ export const useSignin = () => {
     setIsLoading(true)
     setError(null)
 
+    console.log({ username: username, password: password });
     const response = await fetch(`${_url}/user/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     }).catch((err) => {
       console.log(err)
@@ -82,7 +77,6 @@ export const useSignin = () => {
 
     const response = await fetch(`${_url}/user/forgot-password`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
     }).catch((err) => {
       console.log(err)

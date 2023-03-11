@@ -8,12 +8,8 @@ export const useMalls = () => {
   const malls = async () => {
     setIsLoading(true)
 
-    const response = await fetch(`${_url}/mall/get-malls`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
+    const response = await fetch(`${_url}/mall/get-malls`)
+    .catch(err => console.log(err))
     const json = await response.json()
     console.log({ malls: json })
 

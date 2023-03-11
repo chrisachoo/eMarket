@@ -10,20 +10,16 @@ export const useShop = () => {
   const _url = import.meta.env.VITE_URL_STRING;
 
   const getAllCategory = async () => {
-
     try {
-      const response = await fetch(`${_url}/category/get-all-categories`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      console.log({response: response});
+      const response = await fetch(`${_url}/category/get-all-categories`)
+      console.log({ response: response });
       const json = await response.json()
       console.log(json)
 
       if (!response.ok) {
         setIsLoading(false)
       }
-  
+
       if (response.ok) {
         setIsLoading(false)
         return json
@@ -37,12 +33,9 @@ export const useShop = () => {
   const getProducts = async (category_id) => {
     setIsLoading(true)
 
-    const response = await fetch(`${_url}/product/get-products/${category_id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
+    const response = await fetch(`${_url}/product/get-products/${category_id}`)
+      .catch((err) => console.log(err));
+
     const products = await response.json()
 
     if (!response.ok) {
@@ -66,12 +59,9 @@ export const useShop = () => {
   }
 
   const getMallShops = async (_id) => {
-    const response = await fetch(`${_url}/shop/get-shops-for-a-mall/${_id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
+    const response = await fetch(`${_url}/shop/get-shops-for-a-mall/${_id}`)
+      .catch((err) => console.log(err));
+
     const shops = await response.json()
 
     if (!response.ok) {
