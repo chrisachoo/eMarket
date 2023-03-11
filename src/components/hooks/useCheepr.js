@@ -9,7 +9,7 @@ export const useCheaper = () => {
   const [loading, setLoading] = useState(null)
   const { user } = useAuthContext()
   const navigate = useNavigate()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const getCheaperProduct = async (product_name, product_id, shop_id) => {
     setLoading(true)

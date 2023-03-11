@@ -7,7 +7,8 @@ export const useAddress = () => {
   const { user } = useAuthContext()
   const token = user.token
   const [isLoading, setIsLoading] = useState(null)
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
+
 
   const addAddress = async (address_type, street_address, suburb, city_or_town, province, postal_code) => {
     setIsLoading(true)

@@ -3,7 +3,7 @@ import { useState } from 'react'
 export const useMalls = () => {
 
   const [isLoading, setIsLoading] = useState(null)
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const malls = async () => {
     setIsLoading(true)

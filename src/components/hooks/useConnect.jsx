@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 export const useConnect = () => {
 
   const [category, setCategory] = useState([])
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const getMallShops = async () => {
     await fetch(`${_url}/shop/get-shops-for-a-mall`)

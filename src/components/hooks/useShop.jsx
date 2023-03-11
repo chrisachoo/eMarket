@@ -7,26 +7,30 @@ export const useShop = () => {
 
   const [isLoading, setIsLoading] = useState(null)
   const navigate = useNavigate()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const getAllCategory = async () => {
 
-    const response = await fetch(`${_url}/category/get-all-categories`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).catch((err) => {
-      console.log(err)
-    })
-    const json = await response.json()
-    console.log(json)
+    try {
+      const response = await fetch(`${_url}/category/get-all-categories`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      console.log({response: response});
+      const json = await response.json()
+      console.log(json)
 
-    if (!response.ok) {
-      setIsLoading(false)
+      if (!response.ok) {
+        setIsLoading(false)
+      }
+  
+      if (response.ok) {
+        setIsLoading(false)
+        return json
+      }
     }
-
-    if (response.ok) {
-      setIsLoading(false)
-      return json
+    catch (err) {
+      console.log(err)
     }
   }
 

@@ -6,7 +6,7 @@ export const useProducts = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuthContext()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const getAllProducts = async () => {
     const response = await fetch(`${_url}/product/get-all-products`, {

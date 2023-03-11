@@ -10,7 +10,7 @@ export const checkout = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuthContext()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const checkUser = async () => {
     if (!user) {

@@ -8,7 +8,7 @@ export const useSignup = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const signup = async (first_name, last_name, email, cellno, usertype, password) => {
     setIsLoading(true)

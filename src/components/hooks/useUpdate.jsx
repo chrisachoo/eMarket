@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const useUpdate = () => {
   const [isLoading, setIsLoading] = useState(null)
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
   const { user } = useAuthContext()
 
   const updateUser = async (first_name, last_name, email, cellno, address) => {
