@@ -3,7 +3,8 @@ import { useCart } from 'react-use-cart'
 import { useCheaper } from '../../hooks/useCheepr'
 import { Loader } from '../..'
 import { useAuthContext } from "../../hooks/useAuthContext"
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ListProducts = () => {
 
@@ -17,7 +18,16 @@ const ListProducts = () => {
 
   const addToCart = (item) => {
     addItem(item)
-    console.log({ item })
+    toast("Item added to cart"), {
+      position: "top-right",
+      autoClose: 9000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "white",
+    }
   }
 
   const viewItem = async (item) => {
@@ -69,6 +79,7 @@ const ListProducts = () => {
         })}
 
       </div>
+      <ToastContainer />
     </>
   )
 }

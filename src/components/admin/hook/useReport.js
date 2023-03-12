@@ -7,8 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const useReport = () => {
   const [isGenerating, setIsGenerating] = useState(null)
-  const _url = 'https://e-mall-backend.herokuapp.com'
-  // const _url = 'http://localhost:5000'
+  const _url = import.meta.env.VITE_URL_STRING;
   const { user } = useAuthContext()
 
   const usersReport = async () => {
@@ -37,7 +36,6 @@ export const useReport = () => {
 
     const response = await fetch(`${_url}/report/generate-product-report-for-display`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
       console.log(err)
     })

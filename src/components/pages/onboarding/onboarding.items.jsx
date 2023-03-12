@@ -4,7 +4,7 @@ import React from 'react'
 import { useCart } from 'react-use-cart'
 import { checkout } from '../../hooks/useCheckout'
 import emptycart from '../../../assets/empty-cart.png'
-
+import { ToastContainer, toast } from 'react-toastify';
 
 const ViewCart = () => {
 
@@ -108,6 +108,7 @@ const ViewCart = () => {
           </button>
         </div>
       </div>
+      <ToastContainer/>
     </section>
   )
 }

@@ -11,12 +11,13 @@ export const checkout = () => {
   const navigate = useNavigate()
   const { user } = useAuthContext()
   const _url = import.meta.env.VITE_URL_STRING;
+  const localUser = JSON.parse(sessionStorage.getItem('user'))
 
   const checkUser = async () => {
     if (!user) {
       navigate('/signin')
     } else {
-      if (!user.address) {
+      if (!localUser.address) {
         toast.error("Please go to your profile and edit your address, since it's its empty"), {
           position: "top-right",
           autoClose: 9000,

@@ -11,6 +11,7 @@ const Upload = ({ data, shops }) => {
   const [successful, isSuccessful] = useState(null)
   const [isUploading, setIsUploading] = useState(false)
   const { saveProducts, error, isLoading } = saveProductsDeatils()
+  const _url = import.meta.env.VITE_CLOUD_STRING;
   const [form, setForm] = useState({
     name: '',
     description: '',
@@ -41,7 +42,7 @@ const Upload = ({ data, shops }) => {
     console.log({ form })
     console.log(formData)
 
-    await axios.post(`https://api.cloudinary.com/v1_1/edu-inc/image/upload`, formData).then((responce) => {
+    await axios.post(_url, formData).then((responce) => {
       console.log({ responce })
       if (responce) {
         const picture_url = responce.data.url

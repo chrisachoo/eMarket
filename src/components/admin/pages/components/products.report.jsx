@@ -2,9 +2,10 @@ import { useState } from "react"
 import Pagination from "./pagination"
 
 const ProductsReport = ({ products }) => {
-
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(9)
+  const BASE_URL = import.meta.env.VITE_URL_STRING;
 
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
@@ -47,7 +48,7 @@ const ProductsReport = ({ products }) => {
         </table>
 
         <div style={{ margin: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <a href="https://e-mall-backend.herokuapp.com/report/generate-product-report" download>
+          <a href={`${BASE_URL}/report/generate-product-report`} download>
             <button className="btn btn-primary" type="submit">
               Generate report
             </button>

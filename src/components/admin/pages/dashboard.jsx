@@ -18,6 +18,7 @@ import AddShops from './components/addshops'
 import { FaShoppingBasket } from 'react-icons/fa'
 import { BsFillFileBarGraphFill } from 'react-icons/bs'
 import ProductsReport from './components/products.report'
+const BASE_URL = import.meta.env.VITE_URL_STRING;
 
 const Dashboard = ({ malls }) => {
   const { state } = useLocation()
@@ -64,11 +65,6 @@ const Dashboard = ({ malls }) => {
   const perPage = 7
   const pageVisited = pages * perPage
 
-  const generateRepost = async () => {
-    const res = await usersReport()
-    console.log({ res })
-  }
-
   const productsreport = async () => {
     const res = await productsReport()
     if (res) {
@@ -104,7 +100,7 @@ const Dashboard = ({ malls }) => {
             </a>
           </li>
           <li>
-            <a href='https://e-mall-backend.herokuapp.com/report/generate-sales-report' download>
+            <a href={`${BASE_URL}/report/generate-sales-report`} download>
               <BsFillFileBarGraphFill className="h-5 w-5" />
               Sales Report
             </a>
@@ -150,7 +146,7 @@ const Dashboard = ({ malls }) => {
               </table>
 
               <div style={{ margin: "16px 0", float: "right" }}>
-                <a href="https://e-mall-backend.herokuapp.com/report/generate-user-report/1" target="_black">
+                <a href={`${BASE_URL}/report/generate-user-report/1`} target="_black">
                   <button className="btn btn-primary" type="submit"
                     disabled={isGenerating}
                   >

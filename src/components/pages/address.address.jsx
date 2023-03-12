@@ -19,11 +19,10 @@ const Address = ({ isScriptLoaded, isScriptLoadSucceed }) => {
   }
 
   const handleSelect = (value) => {
-    setAddress(value)
-    console.log({ value })
-    if (address) {
-      sessionStorage.setItem('address', JSON.stringify(address))
-    }
+    setAddress(value);
+    console.log({ address: address })
+    sessionStorage.setItem('address', JSON.stringify(value));
+    console.log({ value });
   }
 
   if (isScriptLoaded && isScriptLoadSucceed) {

@@ -18,6 +18,7 @@ export const useSignup = () => {
 
     const response = await fetch(`${_url}/user/registration`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ first_name, last_name, email, cellno, usertype, password })
     }).catch((err) => {
       console.log(err)
