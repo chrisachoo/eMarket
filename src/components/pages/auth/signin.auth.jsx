@@ -2,6 +2,7 @@ import { useSignin } from '../../hooks/useSignin'
 import { Formik, Form, Field } from 'formik';
 import { Link } from "react-router-dom"
 import * as Yup from 'yup';
+import { PasswordShowHide } from "../.."
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Field required'),
@@ -40,12 +41,14 @@ const Signin = () => {
               </div>
               {error && <div className='error'>{error}</div>}
 
-              <Field name="email" type="email" placeholder="Email" className="input input-bordered input-primary w-full" />
+              <Field name="email" type="email" placeholder="Email" className="input input-bordered input-primary w-full" 
+                autoComplete="none"
+              />
               {errors.email && touched.email ? (<div className="text-orange-600">{errors.email}</div>) : null}
-              <Field name="password" type="password" placeholder="Password" className="input input-bordered input-primary w-full" />
+              <Field name="password" component={PasswordShowHide} />
               {errors.password && touched.password ? (<div className="text-orange-600">{errors.password}</div>) : null}
 
-              <span className="span-text"><Link className="link link-primary">Reset password</Link></span>
+              <span className="span-text"><Link to='/password/reset' className="link link-primary">Reset password</Link></span>
               <button className="btn btn-primary" type="submit" disabled={isLoading}>
                 Sign in
               </button>
@@ -55,7 +58,7 @@ const Signin = () => {
         </Formik>
       </div>
       <div className="bg-base-100 grid-cols-two">
-        <img src={`https://images.pexels.com/photos/5868740/pexels-photo-5868740.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`} alt="shopping" />
+        <img src={`https://images.unsplash.com/photo-1572584642822-6f8de0243c93?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`} alt="shopping" />
       </div>
     </div>
   )

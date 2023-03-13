@@ -9,7 +9,8 @@ import {
   ProductList,
   Checkout,
   Compare,
-  ThankYou
+  ThankYou,
+  ResetPassword
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
 import { Dashboard, TailwindDashboard } from './components/admin'
@@ -132,7 +133,8 @@ function App() {
     <>
       {
         location.pathname !== '/signup' && location.pathname !== '/signin' && location.pathname !=='/thank-you' &&
-        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Navigation />
+        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && 
+        location.pathname !== '/password/reset'&& <Navigation />
       }
       <Routes>
         <Route path='/' element={<Onboarding category={isCategory} product={products} />} />
@@ -144,6 +146,7 @@ function App() {
         <Route path='/payment-checkout' element={<Checkout />} />
         <Route path='/thank-you' element={<ThankYou />} />
         <Route path='/view product' element={<Compare />} />
+        <Route path='/password/reset' element={<ResetPassword />} />
 
         <Route path='/admin/dashboard' element={<Dashboard malls={isMalls} />} />
         <Route path='/dashboard' element={<TailwindDashboard />} />
@@ -151,7 +154,7 @@ function App() {
 
       {
         location.pathname !== '/signup' && location.pathname !== '/signin' && location.pathname !=='/thank-you' &&
-        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && <Footer />
+        location.pathname !== '/admin/dashboard' && location.pathname !== '/payment-checkout' && location.pathname !== '/password/reset'&& <Footer />
       }
     </>
   )

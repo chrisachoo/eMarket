@@ -83,14 +83,11 @@ export const useSignin = () => {
       console.log(err)
     })
     const json = await response.json()
+    console.log({ response: response, json: json, message: json.error });
 
     if (!response.ok) {
       setIsLoading(false)
-      // Swal.fire(
-      //   'Error',
-      //   json.error,
-      //   'error'
-      // )
+      setError(json)
     }
 
     if (response.ok) {
