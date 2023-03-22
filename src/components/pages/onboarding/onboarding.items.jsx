@@ -20,7 +20,8 @@ const ViewCart = () => {
   const navigate = useNavigate()
   const [value, setValue] = useState(1);
 
-  const handleChange = (event) => {
+  const handleChange = (event, item) => {
+    console.log({item: item})
     console.log({initialValue: value});
     setValue(event.target.value);
     console.log({updatedValue: value});
@@ -74,7 +75,7 @@ const ViewCart = () => {
                   <div className="flex text-sm divide-x mt-1" style={{ color: "red", gap: "5px" }}>
 
                     <select id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 mr-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      value={value} onChange={handleChange}
+                      value={value} onChange={handleChange(event.target.value, item)}
                     >
                       <option value="1" selected>Qty 1</option>
                       <option value="2">Qty 2</option>
