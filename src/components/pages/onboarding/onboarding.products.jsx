@@ -26,7 +26,7 @@ const ListProducts = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "white",
+      theme: "white"
     }
   }
 

@@ -1,5 +1,7 @@
 import { useLocation } from "react-router-dom"
 import { useCart } from 'react-use-cart'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ComparePrices = () => {
   const { state } = useLocation()
@@ -7,7 +9,19 @@ const ComparePrices = () => {
   console.log({ state })
 
   const numberFormatter = Intl.NumberFormat('en-US')
-  const addToCart = item => addItem(item)
+  const addToCart = (item) => {
+    addItem(item)
+    toast("Item added to cart"), {
+      position: "top-right",
+      autoClose: 9000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "white"
+    }
+  }
 
   return (
     <>
@@ -84,6 +98,7 @@ const ComparePrices = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }
