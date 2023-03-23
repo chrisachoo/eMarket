@@ -5,6 +5,7 @@ import { useCart } from 'react-use-cart'
 import { checkout } from '../../hooks/useCheckout'
 import emptycart from '../../../assets/empty-cart.png'
 import { ToastContainer, toast } from 'react-toastify';
+import { event } from "jquery"
 
 const ViewCart = () => {
 
@@ -20,12 +21,8 @@ const ViewCart = () => {
   const navigate = useNavigate()
   const [value, setValue] = useState(1);
 
-  const handleChange = (event, item) => {
-    console.log({item: item})
-    console.log({initialValue: value});
-    setValue(event.target.value);
-    console.log({updatedValue: value});
-    console.log(event.target.value); 
+  const handleChange = event => {
+    setValue(event.target.value)
   }
 
   let price = 0
@@ -74,15 +71,9 @@ const ViewCart = () => {
                   </div>
                   <div className="flex text-sm divide-x mt-1" style={{ color: "red", gap: "5px" }}>
 
-                    <select id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 mr-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      value={value} onChange={handleChange(event.target.value, item)}
-                    >
-                      <option value="1" selected>Qty 1</option>
-                      <option value="2">Qty 2</option>
-                      <option value="3">Qty 3</option>
-                      <option value="4">Qty 4</option>
-                      <option value="5">Qty 5</option>
-                    </select>
+                    <input type="number" min="1" max="5" value={value} onChange={(event) =>handleChange(item.id)}
+                      className="input input-bordered input-primary" style={{ width: "20%" }}
+                    />
 
                     <div style={{ display: "flex", paddingLeft: "6px" }}>
                       <button type="button" className="flex items-center px-2 py-1 pl-0 space-x-1"
