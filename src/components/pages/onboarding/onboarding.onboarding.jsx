@@ -1,6 +1,6 @@
 import { useShop } from '../../hooks/useShop'
 import React, { useState } from 'react'
-import { Loader, Paginate } from '../..'
+import { Loader, Paginate, NoItems } from '../..'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCart } from 'react-use-cart'
@@ -116,6 +116,8 @@ const Onboarding = ({ category, product }) => {
                 }
               }).slice(indexOfFirstPost, indexOfLastPost).map((x) => {
                 return (
+                  <>
+                  {x ? 
                   <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                     <h4 className="text-lg px-5 pt-5 text-orange-300" onClick={() => viewItem(x)} style={{ cursor: "pointer" }}>
                       View Product
@@ -132,6 +134,8 @@ const Onboarding = ({ category, product }) => {
                       <p className="pt-1 text-indigo-500 text-2xl font-medium">R {numberFormatter.format(x.price)}</p>
                     </div>
                   </div>
+                  : <NoItems/> }
+                  </>
                 )
               })}
             </div>

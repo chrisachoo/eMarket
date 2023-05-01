@@ -18,16 +18,6 @@ const ListProducts = () => {
 
   const addToCart = (item) => {
     addItem(item)
-    toast("Item added to cart"), {
-      position: "top-right",
-      autoClose: 9000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "white"
-    }
   }
 
   const viewItem = async (item) => {

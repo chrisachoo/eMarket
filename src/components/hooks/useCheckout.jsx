@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import { useCart } from 'react-use-cart';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const checkout = () => {
@@ -12,6 +13,8 @@ export const checkout = () => {
   const { user } = useAuthContext()
   const _url = import.meta.env.VITE_URL_STRING;
   const localUser = JSON.parse(sessionStorage.getItem('user'))
+  const { emptyCart } = useCart();
+  const [disable, isDisable] = useState(false);
 
   const checkUser = async () => {
     if (!user) {
@@ -67,6 +70,7 @@ export const checkout = () => {
 
   const proceedCheckout = async (product_id, shop_id, quantity, totalDue, fullName) => {
     setIsLoading(true)
+    isDisable(true)
     const token = user.token
     const email = user.email
 
@@ -92,15 +96,17 @@ export const checkout = () => {
 
     if (!response.ok) {
       setIsLoading(false)
+      isDisable(false)
       setError(res.error)
     }
 
     if (response.ok) {
-      setIsLoading(false)
-      localStorage.removeItem('react-use-cart')
-      navigate('/thank-you')
+      emptyCart();
+      setIsLoading(false);
+      isDisable(true)
+      navigate('/thank-you');
     }
   }
 
-  return { checkUser, checkoutProducts, proceedCheckout, isLoading, error }
+  return { checkUser, checkoutProducts, proceedCheckout, isLoading, error, isDisable }
 }

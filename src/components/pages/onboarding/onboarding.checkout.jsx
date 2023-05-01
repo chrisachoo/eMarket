@@ -9,8 +9,10 @@ import * as Yup from "yup"
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { checkout } from "../../hooks/useCheckout"
-import { AnimateButton } from "../..";
+import { AnimateButton, Loader } from "../..";
 import moment from 'moment/moment'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
 const CheckoutSchema = Yup.object().shape({
@@ -26,16 +28,13 @@ const CheckoutSchema = Yup.object().shape({
 
 const Checkout = () => {
   const numberFormatter = Intl.NumberFormat("en-US");
-  const { checkoutProducts, proceedCheckout, isLoading } = checkout()
+  const { checkoutProducts, proceedCheckout, isLoading, isDisable } = checkout()
   const navigate = useNavigate()
   const { user } = useAuthContext()
   const [validate, setValidate] = useState(null)
   const {
-    isEmpty,
-    totalUniqueItems,
     items,
-    updateItemQuantity,
-    removeItem
+    emptyCart
   } = useCart();
   console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
@@ -66,9 +65,32 @@ const Checkout = () => {
   }, 0)
   const totalDue = price + 99
 
+  const cancelOrder = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You about to cancel your order",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#5568F',
+      cancelButtonColor: '#FFBB00',
+      confirmButtonText: 'Yes, cancel!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Order canceled!',
+          'Your cart is now empty.',
+          'success'
+          )
+          emptyCart();
+          navigate('/');
+      }
+    })
+  }
+
 
   return (
     <>
+      {isLoading ? <Loader /> : null}
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <Link to="/" className="text-2xl font-bold text-gray-800">
           eMarket
@@ -390,12 +412,13 @@ const Checkout = () => {
                 <AnimateButton
                   btnName={`Place Order`}
                   isLoading={isLoading}
+                  isDisable={isDisable}
                 />
               </Form>
             )}
           </Formik>
           <button type="button" className="mb-4 w-full px-6 py-2 border rounded-md dark:border-violet-400"
-            onClick={() => navigate(-1)}
+            onClick={cancelOrder}
           >
             Cancel
           </button>
