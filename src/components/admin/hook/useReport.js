@@ -52,5 +52,27 @@ export const useReport = () => {
     }
   }
 
-  return { usersReport, productsReport, isGenerating }
+  const shopSalesReport = async () => {
+    setIsGenerating(true)
+    // console.log('url', _url)
+
+    const response = await fetch(`http://localhost:5000/report/generate-money-allocation-report-for-display`, {
+      method: 'GET',
+    }).catch((err) => {
+      console.log(err)
+    })
+    const json = await response.json()
+    console.log({ 'money': json })
+
+    if (!response.ok) {
+      setIsGenerating(false)
+    }
+
+    if (response.ok) {
+      setIsGenerating(false)
+      return json
+    }
+  }
+
+  return { usersReport, productsReport, shopSalesReport, isGenerating }
 }

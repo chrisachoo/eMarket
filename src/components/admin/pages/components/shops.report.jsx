@@ -1,0 +1,70 @@
+import { useState } from "react"
+import Pagination from "./pagination"
+
+const ShopsReport = ({ sales }) => {
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage] = useState(9)
+  const BASE_URL = import.meta.env.VITE_URL_STRING;
+
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const currentElements = sales.slice(indexOfFirstPost, indexOfLastPost)
+
+  const previousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  const nextPage = () => {
+    if (currentPage !== Math.ceil(sales.length / postsPerPage)) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="table table-compact w-full">
+        <thead>
+          <tr>
+            <th>Shop Name</th>
+            <th>Total Income</th>
+            <th>Total Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentElements.map((element, index) => {
+            return (
+              <tr key={index}>
+                <td>{element.ShopName}</td>
+                <td>{element.MoneyMade}</td>
+                <td>{element.OurProfit}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+
+      {/* <div style={{ margin: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <a href={`${BASE_URL}/report/generate-product-report`} download>
+          <button className="btn btn-primary" type="submit">
+            Generate report
+          </button>
+        </a>
+        <Pagination nextPage={nextPage} previousPage={previousPage} />
+      </div> */}
+
+      <div style={{ margin: "16px 0", float: "right" }}>
+        <a href={`${BASE_URL}/report/generate-money-allocation-report`} download>
+          <button className="btn btn-primary" type="submit" disabled={isGenerating}>
+            Download report
+          </button>
+        </a>
+        <Pagination nextPage={nextPage} previousPage={previousPage} />
+      </div>
+    </div>
+  )
+}
+
+export default ShopsReport

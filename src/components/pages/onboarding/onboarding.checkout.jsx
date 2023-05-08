@@ -12,6 +12,7 @@ import { checkout } from "../../hooks/useCheckout"
 import { AnimateButton, Loader } from "../..";
 import moment from 'moment/moment'
 import Swal from 'sweetalert2'
+import './custom.styles.css'
 import withReactContent from 'sweetalert2-react-content'
 const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
@@ -34,7 +35,8 @@ const Checkout = () => {
   const [validate, setValidate] = useState(null)
   const {
     items,
-    emptyCart
+    emptyCart,
+    totalItems
   } = useCart();
   console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
@@ -53,7 +55,7 @@ const Checkout = () => {
   })
 
   const prices = items.map(element => {
-    return element.price
+    return element.price * element.quantity
   })
 
   const shop_id = items.map(element => {
@@ -80,13 +82,19 @@ const Checkout = () => {
           'Order canceled!',
           'Your cart is now empty.',
           'success'
-          )
-          emptyCart();
-          navigate('/');
+        )
+        emptyCart();
+        navigate('/');
       }
     })
   }
 
+  const ConditionalRender = () => {
+    if (totalItems > 1)
+      return <p className="text-sm font-medium text-gray-900">Total: <span className="font-normal">({totalItems} Items)</span></p>
+    else
+      return <p className="text-sm font-medium text-gray-900">Total: <span className="font-normal">({totalItems} Item)</span></p>
+  }
 
   return (
     <>
@@ -193,9 +201,15 @@ const Checkout = () => {
                     <span className="float-right text-gray-400">
                       {element.name}
                     </span>
-                    <p className="text-lg font-bold">
-                      R {numberFormatter.format(element.price)}
-                    </p>
+                    <div className="inline-items">
+                      <p className="text-lg font-bold">
+                        R {numberFormatter.format(element.price * element.quantity)}
+                      </p>
+                      <span className="quantity-text">
+                        <i className="font-bold">Qty</i>
+                        {element.quantity}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
@@ -250,11 +264,11 @@ const Checkout = () => {
                             else
                               if (!cvvRegex.test(cvv)) {
                                 setValidate('CVV number too long, must be 3 digits in length')
-                              } 
-                                else {
-                                  proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
-                                  checkoutProducts(card_number, exp_date, cvv)
-                                }
+                              }
+                              else {
+                                proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+                                checkoutProducts(card_number, exp_date, cvv)
+                              }
                     }
             }}
           >
@@ -380,6 +394,7 @@ const Checkout = () => {
                       className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="CVV"
                       maxLength={3}
+                      minLength={3}
                     />
                   </div>
                   {errors.cvv && touched.cvv ? (<div className="text-orange-600">{errors.cvv}</div>) : null}
@@ -405,7 +420,7 @@ const Checkout = () => {
                     </div>
                   </div>
                   <div className="mt-6 flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">Total</p>
+                    <ConditionalRender/>
                     <p className="text-2xl font-semibold text-gray-900">R {numberFormatter.format(price + 99.00)}</p>
                   </div>
                 </div>

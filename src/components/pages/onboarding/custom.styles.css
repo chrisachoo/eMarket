@@ -1,0 +1,16 @@
+.inline-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quantity-text {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+i {
+  color: #fbbf24;
+  font-style: normal;
+}

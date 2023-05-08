@@ -18,6 +18,7 @@ import AddShops from './components/addshops'
 import { FaShoppingBasket } from 'react-icons/fa'
 import { BsFillFileBarGraphFill } from 'react-icons/bs'
 import ProductsReport from './components/products.report'
+import ShopsReport from './components/shops.report'
 const BASE_URL = import.meta.env.VITE_URL_STRING;
 
 const Dashboard = ({ malls }) => {
@@ -25,9 +26,10 @@ const Dashboard = ({ malls }) => {
   const navigate = useNavigate()
   const { logout } = useLogout()
   const { getAllCategory, shopShops } = useShop()
-  const { usersReport, productsReport, isGenerating } = useReport()
+  const { productsReport, isGenerating, shopSalesReport } = useReport()
   const [shops, setShops,] = useState()
   const [isProducts, setIsProducts] = useState()
+  const [isSales, setIsSales] = useState()
   const { user } = useAuthContext()
   console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
@@ -54,8 +56,18 @@ const Dashboard = ({ malls }) => {
       }
     }
 
+    const salesShopReport = async () => {
+      const res = await shopSalesReport()
+      if (res) {
+        setIsSales(res)
+        console.log('report', res)
+        console.log('isSales: ', isSales)
+      }
+    }
+
     fetchCategories()
     fetchShops()
+    salesShopReport()
   }, [])
 
 
@@ -72,8 +84,6 @@ const Dashboard = ({ malls }) => {
       setActiveTab('products')
     }
   }
-
-
 
 
   return (
@@ -103,6 +113,12 @@ const Dashboard = ({ malls }) => {
             <a href={`${BASE_URL}/report/generate-sales-report`} download>
               <BsFillFileBarGraphFill className="h-5 w-5" />
               Sales Report
+            </a>
+          </li>
+          <li onClick={() => setActiveTab('shop')}>
+            <a>
+              <BsFillFileBarGraphFill className="h-5 w-5" />
+              Shop Sales
             </a>
           </li>
           {/* <li onClick={() => setActiveTab("add-shops")}>
@@ -160,9 +176,9 @@ const Dashboard = ({ malls }) => {
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
           {activeTab === 'add-shops' && <AddShops cate={options} data={mallsData} />}
           {activeTab === 'products' && <ProductsReport products={isProducts} />}
+          {activeTab === 'shop' && <ShopsReport sales={isSales}/>}
         </div>
       </div>
-
     </>
   )
 }
