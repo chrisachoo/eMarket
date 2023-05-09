@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '../';
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 
 const Profile = () => {
@@ -15,8 +16,11 @@ const Profile = () => {
     first_name: '',
     last_name: '',
     email: '',
-    cellno: ''
+    cellno: '',
+    placeholder: ''
   })
+  const { user } = useAuthContext()
+
 
   const notify = (event) => {
     event.preventDefault()
@@ -68,11 +72,13 @@ const Profile = () => {
     const fetchUser = async () => {
       const user = await JSON.parse(sessionStorage.getItem('user'))
       if (user) {
+        console.log(user)
         setForm({
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
-          cellno: user.cellno
+          cellno: user.cellno,
+          placeholder: user.address
         })
       }
     }
@@ -135,7 +141,9 @@ const Profile = () => {
               className="input input-bordered input-primary w-full"
             />
 
-            <Address />
+            {user.Address ?
+              <Address placeholder="Enter address ..."/> : <Address placeholder={user.address} />
+            }
 
             <div className="flex-items">
               <button className="btn btn-outline btn-error"
