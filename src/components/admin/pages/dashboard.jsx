@@ -61,7 +61,6 @@ const Dashboard = ({ malls }) => {
       if (res) {
         setIsSales(res)
         console.log('report', res)
-        console.log('isSales: ', isSales)
       }
     }
 
@@ -110,7 +109,7 @@ const Dashboard = ({ malls }) => {
             </a>
           </li>
           <li>
-            <a href={`${BASE_URL}/report/generate-sales-report`} download>
+            <a href={`${BASE_URL}/report/generate-sales-report`} target="_black" download>
               <BsFillFileBarGraphFill className="h-5 w-5" />
               Sales Report
             </a>

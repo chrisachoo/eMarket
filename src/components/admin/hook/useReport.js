@@ -56,7 +56,7 @@ export const useReport = () => {
     setIsGenerating(true)
     // console.log('url', _url)
 
-    const response = await fetch(`http://localhost:5000/report/generate-money-allocation-report-for-display`, {
+    const response = await fetch(`${_url}/report/generate-money-allocation-report-for-display`, {
       method: 'GET',
     }).catch((err) => {
       console.log(err)
