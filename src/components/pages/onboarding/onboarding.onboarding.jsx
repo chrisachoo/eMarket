@@ -14,6 +14,7 @@ const Onboarding = ({ category, product }) => {
   const numberFormatter = Intl.NumberFormat('en-US')
 
   const [currentPage, setCurrentPage] = useState(1)
+  const [searchField, setSearchField] = useState("")
   const [postsPerPage] = useState(2)
   const { getProducts, isLoading } = useShop()
   const { getCheaperProduct, loading } = useCheaper()
@@ -63,7 +64,15 @@ const Onboarding = ({ category, product }) => {
     }
   }
 
-  const [searchField, setSearchField] = useState("")
+  const filteredProducts = product?.filter(post => {
+    if (searchField === '') {
+      return post
+    } else if (post.name.toLowerCase().includes(searchField.toLowerCase())) {
+      console.log('name ', post.name.toLowerCase().includes(searchField.toLowerCase()));
+      return post
+    }
+  })
+  const displayedProducts = filteredProducts?.slice(indexOfFirstPost, indexOfLastPost)
 
   return (
     <>
@@ -106,38 +115,32 @@ const Onboarding = ({ category, product }) => {
             </div>
           </nav>
           {product ?
-            <div className="highlights">
-              {product.filter(post => {
-                if (searchField === '') {
-                  return post
-                }
-                else if (post.name.toLowerCase().includes(searchField.toLowerCase())) {
-                  return post
-                }
-              }).slice(indexOfFirstPost, indexOfLastPost).map((x) => {
-                return (
-                  <>
-                  {x ? 
-                  <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                    <h4 className="text-lg px-5 pt-5 text-orange-300" onClick={() => viewItem(x)} style={{ cursor: "pointer" }}>
-                      View Product
-                    </h4>
-                    <a style={{ display: "flex", justifyContent: "center" }}>
-                      <img className="p-8 rounded-t-lg" style={{ objectFit: "fill", width: "100%", maxHeight: "300px" }} src={x.picture_url} alt="product image" />
-                    </a>
-                    <div className="px-5 pb-5">
-                      <a>
-                        <p className="text-base text-white">
-                          {x.name}
-                        </p>
+            <div>
+              {displayedProducts?.length > 0 ? (
+                  <div className="highlights">
+                { displayedProducts.map((x) => (
+                    <div key={x.id} className="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                      <h4 className="text-lg px-5 pt-5 text-orange-300" onClick={() => viewItem(x)} style={{ cursor: "pointer" }}>
+                        View Product
+                      </h4>
+                      <a style={{ display: "flex", justifyContent: "center" }}>
+                        <img className="p-8 rounded-t-lg" style={{ objectFit: "fill", width: "100%", maxHeight: "300px" }} src={x.picture_url} alt="product image" />
                       </a>
-                      <p className="pt-1 text-indigo-500 text-2xl font-medium">R {numberFormatter.format(x.price)}</p>
+                      <div className="px-5 pb-5">
+                        <a>
+                          <p className="text-base text-white">
+                            {x.name}
+                          </p>
+                        </a>
+                        <p className="pt-1 text-indigo-500 text-2xl font-medium">R {numberFormatter.format(x.price)}</p>
+                      </div>
                     </div>
+                ))
+                }
                   </div>
-                  : <NoItems/> }
-                  </>
-                )
-              })}
+              ) : (
+                <NoItems />
+              )}
             </div>
             : <div className='onboarding__loader'>
               <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto mt-2">
@@ -173,10 +176,9 @@ const Onboarding = ({ category, product }) => {
             </div>
           }
 
-          {product ?
+          {displayedProducts?.length > 0 ?
             <div style={{ marginTop: "1.5em" }}>
               <Paginate page={postsPerPage}
-                games={product.length}
                 paginate={paginate}
                 currentPage={currentPage}
                 previousPage={previousPage}
