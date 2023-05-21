@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuthContext } from "../hooks/useAuthContext"
 import { useLogout } from "../hooks/useLogout"
 import { useCart } from 'react-use-cart'
+import { useSignin } from "../hooks/useSignin"
+import jwt_decode from 'jwt-decode'
 
 const Navigation = () => {
 
@@ -16,7 +18,20 @@ const Navigation = () => {
     removeItem,
     totalItems
   } = useCart()
+  const { getAllUsers } = useSignin();
 
+  const adminRoute = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const allusers = await getAllUsers(user?.token)
+    if (user && allusers ) {
+      const token = user?.token
+      const decode = jwt_decode(token)
+      const userObject = JSON.parse(decode.user_details)
+
+      if (userObject.usertype !== 'shopper') navigate('/admin/dashboard', { state: allusers })
+      else navigate('/signin')
+    }
+  }
   const handleLogout = () => {
     logout()
     navigate('/')
@@ -69,11 +84,11 @@ const Navigation = () => {
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-            {user && (
-              <Link to='/profile' className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </Link>
+              {user && (
+                <Link to='/profile' className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </Link>
               )}
             </li>
             {!user ? <div>
@@ -81,6 +96,7 @@ const Navigation = () => {
               <li onClick={handleSignup}><a>SignUp</a></li>
             </div>
               : <div>
+                <li onClick={adminRoute}><a>Admin</a></li>
                 <li onClick={handleLogout}><a>Logout</a></li>
               </div>}
           </ul>

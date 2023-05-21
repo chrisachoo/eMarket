@@ -30,7 +30,6 @@ const Dashboard = ({ malls }) => {
   const [shops, setShops,] = useState()
   const [isProducts, setIsProducts] = useState()
   const [isSales, setIsSales] = useState()
-  const [systemProfit, setSystemProfit] = useState()
   const { user } = useAuthContext()
   const numberFormatter = Intl.NumberFormat('en-US')
 
@@ -78,12 +77,7 @@ const Dashboard = ({ malls }) => {
     setActiveTab('shop')
     const res = await shopSalesReport()
     if (res) {
-      setIsSales(res?.data)
-      setSystemProfit(res?.systemProfit)
-
-      const system =  {
-        name: 'E-Market'
-      }
+      setIsSales(res)
     }
   }
 
@@ -178,7 +172,7 @@ const Dashboard = ({ malls }) => {
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
           {activeTab === 'add-shops' && <AddShops cate={options} data={mallsData} />}
           {activeTab === 'products' && <ProductsReport products={isProducts} />}
-          {activeTab === 'shop' && <ShopsReport sales={isSales} system={systemProfit}/>}
+          {activeTab === 'shop' && <ShopsReport sales={isSales} />}
         </div>
       </div>
     </>

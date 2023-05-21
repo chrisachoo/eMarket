@@ -92,5 +92,5 @@ export const useSignin = () => {
     }
   }
 
-  return { signin, resetPasswords, isLoading, error }
+  return { signin, resetPasswords, isLoading, error, getAllUsers }
 }

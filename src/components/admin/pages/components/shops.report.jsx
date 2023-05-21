@@ -10,7 +10,7 @@ const ShopsReport = ({ sales, system }) => {
 
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentElements = sales?.slice(indexOfFirstPost, indexOfLastPost)
+  const currentElements = sales?.data?.slice(indexOfFirstPost, indexOfLastPost)
 
   const previousPage = () => {
     if (currentPage !== 1) {
@@ -19,11 +19,10 @@ const ShopsReport = ({ sales, system }) => {
   }
 
   const nextPage = () => {
-    if (currentPage !== Math.ceil(sales?.length / postsPerPage)) {
+    if (currentPage !== Math.ceil(sales?.data?.length / postsPerPage)) {
       setCurrentPage(currentPage + 1)
     }
   }
-  console.log('seles: ', sales);
 
   return (
     <>
@@ -52,7 +51,7 @@ const ShopsReport = ({ sales, system }) => {
               <tr>
                 <td>Total Profit (8% Commission)</td>
                 <td></td>
-                <td>{system}</td>
+                <td>{sales?.systemProfit}</td>
               </tr>
             </tbody>
           </table>
