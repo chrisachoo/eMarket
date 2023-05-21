@@ -17,22 +17,12 @@ export const saveProductsDeatils = () => {
     setError(null)
     const token = user.token
 
-    console.log({
-      name: name,
-      description: description,
-      price: price,
-      quantity: quantity,
-      category_id: category_id,
-      shop_id: shop_id,
-      picture_url: picture_url
-    })
-
     const response = await fetch(`${_url}/product/add-product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, description, price, quantity, category_id, shop_id, picture_url, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err);
     })
 
     if (!response.ok) {
@@ -65,7 +55,7 @@ export const saveProductsDeatils = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, category_id, mall_id, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
 
     if (!response.ok) {

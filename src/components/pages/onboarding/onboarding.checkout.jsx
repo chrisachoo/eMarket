@@ -38,7 +38,6 @@ const Checkout = () => {
     emptyCart,
     totalItems
   } = useCart();
-  console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
   const lengthRegex = new RegExp('^[0-9]{16}$')
   const cvvRegex = new RegExp('^[1-9]{3}$')
@@ -232,7 +231,6 @@ const Checkout = () => {
             }}
             validationSchema={CheckoutSchema}
             onSubmit={values => {
-              console.log({ values })
               const { cardHolder: fullName, card_number, exp_date, cvv } = values
 
               if (!lengthRegex.test(card_number)) {

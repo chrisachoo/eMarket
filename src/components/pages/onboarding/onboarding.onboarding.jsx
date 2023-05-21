@@ -30,11 +30,9 @@ const Onboarding = ({ category, product }) => {
 
   const addToCart = (item) => {
     addItem(item)
-    console.log({ item })
   }
 
   const viewItem = async (item) => {
-    console.log({ item })
     const product_id = item.id
     const shop_id = item.shop_id
     const product_name = item.name
@@ -68,7 +66,6 @@ const Onboarding = ({ category, product }) => {
     if (searchField === '') {
       return post
     } else if (post.name.toLowerCase().includes(searchField.toLowerCase())) {
-      console.log('name ', post.name.toLowerCase().includes(searchField.toLowerCase()));
       return post
     }
   })

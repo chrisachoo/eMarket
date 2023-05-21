@@ -31,7 +31,6 @@ const Dashboard = ({ malls }) => {
   const [isProducts, setIsProducts] = useState()
   const [isSales, setIsSales] = useState()
   const { user } = useAuthContext()
-  console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
 
   const handleSignout = () => {
@@ -50,23 +49,13 @@ const Dashboard = ({ malls }) => {
 
     const fetchShops = async () => {
       const shops = await shopShops()
-      console.log('shops: ', shops)
       if (shops.length > 0) {
         setShops(shops)
       }
     }
 
-    const salesShopReport = async () => {
-      const res = await shopSalesReport()
-      if (res) {
-        setIsSales(res)
-        console.log('report', res)
-      }
-    }
-
     fetchCategories()
     fetchShops()
-    salesShopReport()
   }, [])
 
 
@@ -79,8 +68,17 @@ const Dashboard = ({ malls }) => {
   const productsreport = async () => {
     const res = await productsReport()
     if (res) {
-      setIsProducts(res)
+      setIsProducts(res.data)
       setActiveTab('products')
+    }
+  }
+
+  const salesShopReport = async () => {
+    setActiveTab('shop')
+    const res = await shopSalesReport()
+    if (res) {
+      setIsSales(res?.data)
+      console.log('sales report: ', res)
     }
   }
 
@@ -114,10 +112,10 @@ const Dashboard = ({ malls }) => {
               Sales Report
             </a>
           </li>
-          <li onClick={() => setActiveTab('shop')}>
+          <li onClick={salesShopReport}>
             <a>
               <BsFillFileBarGraphFill className="h-5 w-5" />
-              Shop Sales
+              Profit Sales
             </a>
           </li>
           {/* <li onClick={() => setActiveTab("add-shops")}>

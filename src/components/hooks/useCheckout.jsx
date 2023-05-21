@@ -42,21 +42,14 @@ export const checkout = () => {
     setError(null)
     const token = user.token
 
-    console.log({
-      card_number: card_number,
-      exp_date: exp_date,
-      cvv: cvv
-    })
-
     const response = await fetch(`${_url}/payment/save-card`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ card_number, exp_date, cvv, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({ json })
 
     if (!response.ok) {
       setIsLoading(false)
@@ -74,25 +67,15 @@ export const checkout = () => {
     const token = user.token
     const email = user.email
 
-    console.log({
-      product_id: product_id,
-      shop_id: shop_id,
-      quantity: quantity,
-      totalDue: totalDue,
-      fullName: fullName,
-      email: email
-    })
-
     const response = await fetch(`${_url}/cart/proceed-to-checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ product_id, shop_id, quantity, totalDue, fullName, email, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
 
     const res = await response.json()
-    console.log({ res })
 
     if (!response.ok) {
       setIsLoading(false)

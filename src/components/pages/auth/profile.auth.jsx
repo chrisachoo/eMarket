@@ -38,7 +38,6 @@ const Profile = () => {
     event.preventDefault()
     let { first_name, last_name, email, cellno } = form
     const address = JSON.parse(sessionStorage.getItem('address'))
-    console.log({ address })
 
     if (!first_name) {
       setError('Field can not be empty!')
@@ -72,7 +71,6 @@ const Profile = () => {
     const fetchUser = async () => {
       const user = await JSON.parse(sessionStorage.getItem('user'))
       if (user) {
-        console.log(user)
         setForm({
           first_name: user.first_name,
           last_name: user.last_name,

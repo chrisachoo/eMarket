@@ -13,23 +13,15 @@ export const useUpdate = () => {
     setIsLoading(true)
     const token = user.token
 
-    console.log({
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      cellno: cellno,
-      address: address
-    })
 
     const response = await fetch(`${_url}/user/update-profile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ first_name, last_name, email, cellno, address, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({ json })
 
     if (!response.ok) {
       setIsLoading(false)
@@ -61,7 +53,6 @@ export const useUpdate = () => {
         newUser.address = address
 
       sessionStorage.setItem('user', JSON.stringify(newUser))
-      console.log('response', JSON.stringify(json))
     }
   }
 

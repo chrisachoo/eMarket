@@ -28,10 +28,6 @@ const Upload = ({ data, shops }) => {
     setForm(updatedForm)
   }
 
-  const getCategoryId = (x) => {
-    console.log(x)
-  }
-
   const handleSubmit = async (event) => {
     setIsUploading(true)
     event.preventDefault();
@@ -39,11 +35,8 @@ const Upload = ({ data, shops }) => {
     formData.append("file", file)
     formData.append("upload_preset", "pdiwvwhw")
     let { name, description, price, quantity, category_id, shop_id } = form
-    console.log({ form })
-    console.log(formData)
 
     await axios.post(_url, formData).then((responce) => {
-      console.log({ responce })
       if (responce) {
         const picture_url = responce.data.url
         saveProducts(name, description, price, quantity, category_id, shop_id, picture_url)

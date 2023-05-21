@@ -9,7 +9,7 @@ const ProductsReport = ({ products }) => {
 
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentElements = products.slice(indexOfFirstPost, indexOfLastPost)
+  const currentElements = products?.slice(indexOfFirstPost, indexOfLastPost)
 
   const previousPage = () => {
     if (currentPage !== 1) {

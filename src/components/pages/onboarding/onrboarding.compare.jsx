@@ -6,8 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const ComparePrices = () => {
   const { state } = useLocation()
   const { addItem } = useCart()
-  console.log({ state })
-
   const numberFormatter = Intl.NumberFormat('en-US')
   const addToCart = (item) => {
     addItem(item)

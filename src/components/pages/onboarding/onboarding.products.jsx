@@ -21,7 +21,6 @@ const ListProducts = () => {
   }
 
   const viewItem = async (item) => {
-    console.log({ item })
     const product_id = item.id
     const shop_id = item.shop_id
     const product_name = item.name

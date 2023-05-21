@@ -38,7 +38,6 @@ const Signup = () => {
             }}
             validationSchema={SignupSchema}
             onSubmit={values => {
-              console.log(values);
               const cellno = '0' + values.cellNumber
               const first_name = values.firstName
               const last_name = values.lastName

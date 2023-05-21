@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const useReport = () => {
   const [isGenerating, setIsGenerating] = useState(null)
+  const [isProfit, setIsProfit] = useState(null)
   const _url = import.meta.env.VITE_URL_STRING;
   const { user } = useAuthContext()
 
@@ -17,7 +18,7 @@ export const useReport = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
 
@@ -37,10 +38,9 @@ export const useReport = () => {
     const response = await fetch(`${_url}/report/generate-product-report-for-display`, {
       method: 'GET',
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({ json })
 
     if (!response.ok) {
       setIsGenerating(false)
@@ -53,26 +53,24 @@ export const useReport = () => {
   }
 
   const shopSalesReport = async () => {
-    setIsGenerating(true)
-    // console.log('url', _url)
+    setIsProfit(true)
 
     const response = await fetch(`${_url}/report/generate-money-allocation-report-for-display`, {
       method: 'GET',
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({ 'money': json })
 
     if (!response.ok) {
-      setIsGenerating(false)
+      setIsProfit(false)
     }
 
     if (response.ok) {
-      setIsGenerating(false)
+      setIsProfit(false)
       return json
     }
   }
 
-  return { usersReport, productsReport, shopSalesReport, isGenerating }
+  return { usersReport, productsReport, shopSalesReport, isGenerating, isProfit }
 }

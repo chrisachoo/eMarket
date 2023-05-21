@@ -12,9 +12,7 @@ export const useShop = () => {
   const getAllCategory = async () => {
     try {
       const response = await fetch(`${_url}/category/get-all-categories`)
-      console.log({ response: response });
       const json = await response.json()
-      console.log(json)
 
       if (!response.ok) {
         setIsLoading(false)
@@ -26,7 +24,7 @@ export const useShop = () => {
       }
     }
     catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 
@@ -34,7 +32,7 @@ export const useShop = () => {
     setIsLoading(true)
 
     const response = await fetch(`${_url}/product/get-products/${category_id}`)
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
 
     const products = await response.json()
 
@@ -60,7 +58,7 @@ export const useShop = () => {
 
   const getMallShops = async (_id) => {
     const response = await fetch(`${_url}/shop/get-shops-for-a-mall/${_id}`)
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
 
     const shops = await response.json()
 
@@ -80,7 +78,7 @@ export const useShop = () => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const shopProducts = await response.json()
 
@@ -109,7 +107,7 @@ export const useShop = () => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const category = await response.json()
 
@@ -129,10 +127,9 @@ export const useShop = () => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const shops = await response.json()
-    console.log({ shops })
 
     if (!response.ok) {
       setIsLoading(false)
