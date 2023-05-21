@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useReport } from "../../hook/useReport.js"
 import Pagination from "./pagination"
 
-const ShopsReport = ({ sales }) => {
+const ShopsReport = ({ sales, system }) => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(9)
@@ -47,6 +47,13 @@ const ShopsReport = ({ sales }) => {
                   </tr>
                 )
               })}
+            </tbody>
+            <tbody>
+              <tr>
+                <td>Total Profit (8% Commission)</td>
+                <td></td>
+                <td>{system}</td>
+              </tr>
             </tbody>
           </table>
 

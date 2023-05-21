@@ -30,6 +30,7 @@ const Dashboard = ({ malls }) => {
   const [shops, setShops,] = useState()
   const [isProducts, setIsProducts] = useState()
   const [isSales, setIsSales] = useState()
+  const [systemProfit, setSystemProfit] = useState()
   const { user } = useAuthContext()
   const numberFormatter = Intl.NumberFormat('en-US')
 
@@ -78,7 +79,11 @@ const Dashboard = ({ malls }) => {
     const res = await shopSalesReport()
     if (res) {
       setIsSales(res?.data)
-      console.log('sales report: ', res)
+      setSystemProfit(res?.systemProfit)
+
+      const system =  {
+        name: 'E-Market'
+      }
     }
   }
 
@@ -94,12 +99,12 @@ const Dashboard = ({ malls }) => {
               Users
             </a>
           </li>
-          <li onClick={() => setActiveTab('add-products')}>
+          {/* <li onClick={() => setActiveTab('add-products')}>
             <a>
               <MdOutlineProductionQuantityLimits className="h-5 w-5" />
               Add product
             </a>
-          </li>
+          </li> */}
           <li onClick={productsreport}>
             <a>
               <TbReport className="h-5 w-5" />
@@ -118,12 +123,12 @@ const Dashboard = ({ malls }) => {
               Profit Sales
             </a>
           </li>
-          <li onClick={() => setActiveTab("add-shops")}>
+          {/* <li onClick={() => setActiveTab("add-shops")}>
             <a>
               <FaShoppingBasket className="h-5 w-5" />
               Add shops
             </a>
-          </li>
+          </li> */}
           <li onClick={handleSignout}>
             <a>
               <FaSignOutAlt className="h-5 w-5" />
@@ -173,7 +178,7 @@ const Dashboard = ({ malls }) => {
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
           {activeTab === 'add-shops' && <AddShops cate={options} data={mallsData} />}
           {activeTab === 'products' && <ProductsReport products={isProducts} />}
-          {activeTab === 'shop' && <ShopsReport sales={isSales}/>}
+          {activeTab === 'shop' && <ShopsReport sales={isSales} system={systemProfit}/>}
         </div>
       </div>
     </>
