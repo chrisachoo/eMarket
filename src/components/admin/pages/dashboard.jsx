@@ -18,6 +18,7 @@ import AddShops from './components/addshops'
 import { FaShoppingBasket } from 'react-icons/fa'
 import { BsFillFileBarGraphFill } from 'react-icons/bs'
 import ProductsReport from './components/products.report'
+import ShopsReport from './components/shops.report'
 const BASE_URL = import.meta.env.VITE_URL_STRING;
 
 const Dashboard = ({ malls }) => {
@@ -25,11 +26,11 @@ const Dashboard = ({ malls }) => {
   const navigate = useNavigate()
   const { logout } = useLogout()
   const { getAllCategory, shopShops } = useShop()
-  const { usersReport, productsReport, isGenerating } = useReport()
+  const { productsReport, isGenerating, shopSalesReport } = useReport()
   const [shops, setShops,] = useState()
   const [isProducts, setIsProducts] = useState()
+  const [isSales, setIsSales] = useState()
   const { user } = useAuthContext()
-  console.log('response: ', state)
   const numberFormatter = Intl.NumberFormat('en-US')
 
   const handleSignout = () => {
@@ -48,7 +49,6 @@ const Dashboard = ({ malls }) => {
 
     const fetchShops = async () => {
       const shops = await shopShops()
-      console.log('shops: ', shops)
       if (shops.length > 0) {
         setShops(shops)
       }
@@ -68,12 +68,19 @@ const Dashboard = ({ malls }) => {
   const productsreport = async () => {
     const res = await productsReport()
     if (res) {
-      setIsProducts(res)
+      setIsProducts(res.data)
       setActiveTab('products')
     }
   }
 
-
+  const salesShopReport = async () => {
+    setActiveTab('shop')
+    const res = await shopSalesReport()
+    if (res) {
+      setIsSales(res?.data)
+      console.log('sales report: ', res)
+    }
+  }
 
 
   return (
@@ -100,9 +107,15 @@ const Dashboard = ({ malls }) => {
             </a>
           </li>
           <li>
-            <a href={`${BASE_URL}/report/generate-sales-report`} download>
+            <a href={`${BASE_URL}/report/generate-sales-report`} target="_black" download>
               <BsFillFileBarGraphFill className="h-5 w-5" />
               Sales Report
+            </a>
+          </li>
+          <li onClick={salesShopReport}>
+            <a>
+              <BsFillFileBarGraphFill className="h-5 w-5" />
+              Profit Sales
             </a>
           </li>
           {/* <li onClick={() => setActiveTab("add-shops")}>
@@ -160,9 +173,9 @@ const Dashboard = ({ malls }) => {
           {activeTab === 'add-products' && <Upload data={options} shops={shops} />}
           {activeTab === 'add-shops' && <AddShops cate={options} data={mallsData} />}
           {activeTab === 'products' && <ProductsReport products={isProducts} />}
+          {activeTab === 'shop' && <ShopsReport sales={isSales}/>}
         </div>
       </div>
-
     </>
   )
 }

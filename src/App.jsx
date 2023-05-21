@@ -63,7 +63,6 @@ function App() {
   //     // Above returns an Array, then find the shortest distance, and get the index of this distance
   //     // display this index value from Trial object
   //     const closest = Math.min(...distanceArray)
-  //     console.log({ closest })
   //     const closestLocationIndex = distanceArray.indexOf(closest)
   //     return trialDetail.locations[closestLocationIndex]
   //   }
@@ -75,8 +74,7 @@ function App() {
       const category = await getAllCategory()
       const product = await getAllProducts()
       const mall = await malls()
-      console.log({ category })
-      console.log({ product })
+
       if (category) {
         setIsCategory(category)
       }
@@ -128,7 +126,6 @@ function App() {
   //   })
   // }, [getFinalTrial])
 
-  console.log({ locationPosition })
   return (
     <>
       {

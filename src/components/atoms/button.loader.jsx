@@ -24,13 +24,13 @@ const AnimateIcon = styled(CgSpinnerTwo)`
   display: ${({ isloading }) => (isloading ? 'unset' : 'none')};
 `
 
-const Button = ({ btnName, isLoading }) => {
+const Button = ({ btnName, isLoading, isDisable }) => {
   return (
     <>
       <IconButton
         className="mt-4 mb-4 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
         type='submit'
-        disabled={isLoading}
+        disabled={isDisable}
         primary
       >
         <AnimateIcon isloading={isLoading} />

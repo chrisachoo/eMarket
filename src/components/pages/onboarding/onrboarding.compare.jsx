@@ -1,13 +1,15 @@
 import { useLocation } from "react-router-dom"
 import { useCart } from 'react-use-cart'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ComparePrices = () => {
   const { state } = useLocation()
   const { addItem } = useCart()
-  console.log({ state })
-
   const numberFormatter = Intl.NumberFormat('en-US')
-  const addToCart = item => addItem(item)
+  const addToCart = (item) => {
+    addItem(item)
+  }
 
   return (
     <>
@@ -84,6 +86,7 @@ const ComparePrices = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }

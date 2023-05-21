@@ -20,10 +20,9 @@ export const useCheaper = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ product_name, product_id, shop_id, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log(json)
 
     if (!response.ok) {
       setLoading(false)

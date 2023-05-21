@@ -10,10 +10,9 @@ export const useProducts = () => {
 
   const getAllProducts = async () => {
     const response = await fetch(`${_url}/product/get-all-products`)
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
       
     const json = await response.json()
-    console.log(json)
 
     if (!response.ok) {
       setIsLoading(false)

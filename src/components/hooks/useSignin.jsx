@@ -17,7 +17,7 @@ export const useSignin = () => {
     setError(null)
 
     const response = await fetch(`${_url}/user/get-all/${token}`)
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
     const json = await response.json()
 
     if (!response.ok) {
@@ -35,13 +35,12 @@ export const useSignin = () => {
     setIsLoading(true)
     setError(null)
 
-    console.log({ username: username, password: password });
     const response = await fetch(`${_url}/user/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
 
@@ -66,7 +65,6 @@ export const useSignin = () => {
       else {
         const allusers = await getAllUsers(token)
         setIsLoading(false)
-        console.log('check all users: ', allusers)
         navigate('/admin/dashboard', { state: allusers })
       }
     }
@@ -80,10 +78,9 @@ export const useSignin = () => {
       method: 'POST',
       body: JSON.stringify({ email })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({ response: response, json: json, message: json.error });
 
     if (!response.ok) {
       setIsLoading(false)

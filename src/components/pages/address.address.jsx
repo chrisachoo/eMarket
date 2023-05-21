@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 // const google = window.google
 
-const Address = ({ isScriptLoaded, isScriptLoadSucceed }) => {
+const Address = ({ isScriptLoaded, isScriptLoadSucceed, placeholder }) => {
   const [address, setAddress] = useState('')
   // const searchOptions = {
   //   location: new window.google.maps.LatLng(-28.47926, 24.67271),
@@ -20,9 +20,7 @@ const Address = ({ isScriptLoaded, isScriptLoadSucceed }) => {
 
   const handleSelect = (value) => {
     setAddress(value);
-    console.log({ address: address })
     sessionStorage.setItem('address', JSON.stringify(value));
-    console.log({ value });
   }
 
   if (isScriptLoaded && isScriptLoadSucceed) {
@@ -34,7 +32,7 @@ const Address = ({ isScriptLoaded, isScriptLoadSucceed }) => {
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
               <input {...getInputProps({
-                placeholder: 'Enter address ...'
+                placeholder: placeholder
               })}
                 className="input input-bordered input-primary w-full"
               />

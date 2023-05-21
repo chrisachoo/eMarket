@@ -9,9 +9,8 @@ export const useMalls = () => {
     setIsLoading(true)
 
     const response = await fetch(`${_url}/mall/get-malls`)
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
     const json = await response.json()
-    console.log({ malls: json })
 
     if (!response.ok) {
       setIsLoading(false)

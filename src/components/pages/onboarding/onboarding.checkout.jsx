@@ -9,8 +9,11 @@ import * as Yup from "yup"
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { checkout } from "../../hooks/useCheckout"
-import { AnimateButton } from "../..";
+import { AnimateButton, Loader } from "../..";
 import moment from 'moment/moment'
+import Swal from 'sweetalert2'
+import './custom.styles.css'
+import withReactContent from 'sweetalert2-react-content'
 const regex = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
 
 const CheckoutSchema = Yup.object().shape({
@@ -26,18 +29,15 @@ const CheckoutSchema = Yup.object().shape({
 
 const Checkout = () => {
   const numberFormatter = Intl.NumberFormat("en-US");
-  const { checkoutProducts, proceedCheckout, isLoading } = checkout()
+  const { checkoutProducts, proceedCheckout, isLoading, isDisable } = checkout()
   const navigate = useNavigate()
   const { user } = useAuthContext()
   const [validate, setValidate] = useState(null)
   const {
-    isEmpty,
-    totalUniqueItems,
     items,
-    updateItemQuantity,
-    removeItem
+    emptyCart,
+    totalItems
   } = useCart();
-  console.log({ items })
   const dateRegex = new RegExp('[0-9]{2}/[0-9]{2}')
   const lengthRegex = new RegExp('^[0-9]{16}$')
   const cvvRegex = new RegExp('^[1-9]{3}$')
@@ -54,7 +54,7 @@ const Checkout = () => {
   })
 
   const prices = items.map(element => {
-    return element.price
+    return element.price * element.quantity
   })
 
   const shop_id = items.map(element => {
@@ -66,9 +66,38 @@ const Checkout = () => {
   }, 0)
   const totalDue = price + 99
 
+  const cancelOrder = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You about to cancel your order",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#5568F',
+      cancelButtonColor: '#FFBB00',
+      confirmButtonText: 'Yes, cancel!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Order canceled!',
+          'Your cart is now empty.',
+          'success'
+        )
+        emptyCart();
+        navigate('/');
+      }
+    })
+  }
+
+  const ConditionalRender = () => {
+    if (totalItems > 1)
+      return <p className="text-sm font-medium text-gray-900">Total: <span className="font-normal">({totalItems} Items)</span></p>
+    else
+      return <p className="text-sm font-medium text-gray-900">Total: <span className="font-normal">({totalItems} Item)</span></p>
+  }
 
   return (
     <>
+      {isLoading ? <Loader /> : null}
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <Link to="/" className="text-2xl font-bold text-gray-800">
           eMarket
@@ -171,9 +200,15 @@ const Checkout = () => {
                     <span className="float-right text-gray-400">
                       {element.name}
                     </span>
-                    <p className="text-lg font-bold">
-                      R {numberFormatter.format(element.price)}
-                    </p>
+                    <div className="inline-items">
+                      <p className="text-lg font-bold">
+                        R {numberFormatter.format(element.price * element.quantity)}
+                      </p>
+                      <span className="quantity-text">
+                        <i className="font-bold">Qty</i>
+                        {element.quantity}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
@@ -196,7 +231,6 @@ const Checkout = () => {
             }}
             validationSchema={CheckoutSchema}
             onSubmit={values => {
-              console.log({ values })
               const { cardHolder: fullName, card_number, exp_date, cvv } = values
 
               if (!lengthRegex.test(card_number)) {
@@ -228,11 +262,11 @@ const Checkout = () => {
                             else
                               if (!cvvRegex.test(cvv)) {
                                 setValidate('CVV number too long, must be 3 digits in length')
-                              } 
-                                else {
-                                  proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
-                                  checkoutProducts(card_number, exp_date, cvv)
-                                }
+                              }
+                              else {
+                                proceedCheckout(product_id, shop_id, quantity, totalDue, fullName)
+                                checkoutProducts(card_number, exp_date, cvv)
+                              }
                     }
             }}
           >
@@ -358,6 +392,7 @@ const Checkout = () => {
                       className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="CVV"
                       maxLength={3}
+                      minLength={3}
                     />
                   </div>
                   {errors.cvv && touched.cvv ? (<div className="text-orange-600">{errors.cvv}</div>) : null}
@@ -383,19 +418,20 @@ const Checkout = () => {
                     </div>
                   </div>
                   <div className="mt-6 flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">Total</p>
+                    <ConditionalRender/>
                     <p className="text-2xl font-semibold text-gray-900">R {numberFormatter.format(price + 99.00)}</p>
                   </div>
                 </div>
                 <AnimateButton
                   btnName={`Place Order`}
                   isLoading={isLoading}
+                  isDisable={isDisable}
                 />
               </Form>
             )}
           </Formik>
           <button type="button" className="mb-4 w-full px-6 py-2 border rounded-md dark:border-violet-400"
-            onClick={() => navigate(-1)}
+            onClick={cancelOrder}
           >
             Cancel
           </button>

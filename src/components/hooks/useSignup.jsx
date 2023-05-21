@@ -14,17 +14,14 @@ export const useSignup = () => {
     setIsLoading(true)
     setError(null)
 
-    console.log(`first_name ${first_name}, last_name ${last_name}, email ${email}, cellno ${cellno}, usertype ${usertype}, password ${password}`)
-
     const response = await fetch(`${_url}/user/registration`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ first_name, last_name, email, cellno, usertype, password })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const json = await response.json()
-    console.log({response: response});
 
     if (!response.ok) {
       setIsLoading(false)
@@ -36,7 +33,6 @@ export const useSignup = () => {
       dispatch({ type: 'SIGNIN', payload: json })
       setIsLoading(false)
       navigate('/')
-      console.log('response', JSON.stringify(json))
     }
   }
 

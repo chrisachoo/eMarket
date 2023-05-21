@@ -10,12 +10,10 @@ export const useMalls = () => {
     await fetch(`${_url}/mall/get-malls`)
       .then((response) => {
         if (response.ok) {
-          console.log({response: response})
           return response.json();
         }
         throw new TypeError("Oops, we haven't got JSON!");
       })
-      .then(data => console.log({data: data}) )
       .catch(error => console.error(error))
       .finally(() => {
         setIsLoading(false);

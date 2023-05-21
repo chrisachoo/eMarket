@@ -3,9 +3,6 @@ import { saveProductsDeatils } from '../../hook/addProducts'
 
 const AddShops = ({ cate, data }) => {
   const { addShop, isLoading } = saveProductsDeatils()
-  console.log(
-    {cate}
-  )
   const [form, setForm] = useState({
     name: "",
     mall_id: "",
@@ -21,7 +18,6 @@ const AddShops = ({ cate, data }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log({form})
     let { name, mall__id, category_id } = form
     await addShop(name, mall__id, category_id)
   }

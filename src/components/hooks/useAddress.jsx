@@ -18,7 +18,7 @@ export const useAddress = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ address_type, street_address, suburb, city_or_town, province, postal_code, token })
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
 
     if (!response.ok) {
@@ -48,7 +48,7 @@ export const useAddress = () => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }).catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     const shops = await response.json()
 
