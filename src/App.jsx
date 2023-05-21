@@ -10,7 +10,8 @@ import {
   Checkout,
   Compare,
   ThankYou,
-  ResetPassword
+  ResetPassword,
+  TermsOfUse
 } from './components/pages'
 import { useShop } from './components/hooks/useShop'
 import { Dashboard, TailwindDashboard } from './components/admin'
@@ -147,6 +148,7 @@ function App() {
 
         <Route path='/admin/dashboard' element={<Dashboard malls={isMalls} />} />
         <Route path='/dashboard' element={<TailwindDashboard />} />
+        <Route path='/terms/' element={<TermsOfUse />} />
       </Routes>
 
       {
