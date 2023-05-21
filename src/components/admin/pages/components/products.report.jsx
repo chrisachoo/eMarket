@@ -10,6 +10,7 @@ const ProductsReport = ({ products }) => {
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentElements = products?.slice(indexOfFirstPost, indexOfLastPost)
+  console.log('currentElements ', currentElements)
 
   const previousPage = () => {
     if (currentPage !== 1) {
@@ -18,7 +19,7 @@ const ProductsReport = ({ products }) => {
   }
 
   const nextPage = () => {
-    if (currentPage !== Math.ceil(products.length / postsPerPage)) {
+    if (currentPage !== Math.ceil(products?.length / postsPerPage)) {
       setCurrentPage(currentPage + 1)
     }
   }
@@ -35,7 +36,7 @@ const ProductsReport = ({ products }) => {
             </tr>
           </thead>
           <tbody>
-            {currentElements.map((element, index) => {
+            {currentElements?.map((element, index) => {
               return (
                 <tr key={index}>
                   <td>{element.name}</td>

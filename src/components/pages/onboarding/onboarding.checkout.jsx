@@ -44,6 +44,21 @@ const Checkout = () => {
   const today = moment().format('MM')
   const currentYear = moment().format('YY')
   const email = user ? user.email : null
+  const [expiryDate, setExpiryDate] = useState('');
+
+  const handleExpiryDateChange = (event) => {
+    let input = event.target.value;
+    // Remove any non-digit characters from the input
+    input = input.replace(/\D/g, '');
+    
+    // Add a forward slash after the first two digits
+    if (input.length > 2) {
+      input = input.slice(0, 2) + '/' + input.slice(2);
+      console.log('input ', input)
+    }
+
+    setExpiryDate(input);
+  };
 
   const quantity = items.map(element => {
     return element.quantity
@@ -231,7 +246,10 @@ const Checkout = () => {
             }}
             validationSchema={CheckoutSchema}
             onSubmit={values => {
-              const { cardHolder: fullName, card_number, exp_date, cvv } = values
+              const { cardHolder: fullName, card_number, cvv } = values
+              const exp_date = expiryDate
+
+              console.log('exp_date', exp_date)
 
               if (!lengthRegex.test(card_number)) {
                 setValidate("Warning! Card number must be 16 numbers in length")
@@ -243,6 +261,7 @@ const Checkout = () => {
                     setValidate('Invalid date format')
                   } else
                     if (dateRegex.test(exp_date)) {
+                      
                       const month = exp_date.split('/')[0]
                       const year = exp_date.split('/')[1]
 
@@ -382,7 +401,8 @@ const Checkout = () => {
                       name="exp_date"
                       className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="MM/YY"
-                      pattern='[0-9]{2}/[0-9]{2}'
+                      onChange={handleExpiryDateChange}
+                      value={expiryDate}
                       maxLength={5}
                       required
                     />

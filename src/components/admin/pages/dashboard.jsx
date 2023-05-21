@@ -68,7 +68,7 @@ const Dashboard = ({ malls }) => {
   const productsreport = async () => {
     const res = await productsReport()
     if (res) {
-      setIsProducts(res.data)
+      setIsProducts(res)
       setActiveTab('products')
     }
   }
