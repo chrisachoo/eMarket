@@ -3,14 +3,12 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// product/get-products/:category_id
-
 export const saveProductsDeatils = () => {
 
   const [error, setError] = useState(null)
   const { user } = useAuthContext()
   const [isLoading, setIsLoading] = useState(null)
-  const _url = 'https://e-mall-backend.herokuapp.com'
+  const _url = import.meta.env.VITE_URL_STRING;
 
   const saveProducts = async (name, description, price, quantity, category_id, shop_id, picture_url) => {
     setIsLoading(true)
