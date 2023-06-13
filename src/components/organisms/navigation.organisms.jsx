@@ -32,7 +32,7 @@ const Navigation = () => {
 
   let price = 0
   for (let j = 0; j < items.length; j++) {
-    price = price + items[j].price
+    price = price + (items[j].price * items[j].quantity);
   }
 
   const numberFormatter = Intl.NumberFormat('en-US')
