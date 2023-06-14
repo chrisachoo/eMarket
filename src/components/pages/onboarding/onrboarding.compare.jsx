@@ -27,7 +27,7 @@ const ComparePrices = () => {
               <div className="px-5 pb-5">
                 <a>
                   <h5 className="text tracking-tight text-gray-900 dark:text-white">
-                    {item.name}
+                    {item.product_name}
                   </h5>
                   <p className="text-xs mt-1">
                     {item.description}
